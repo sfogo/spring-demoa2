@@ -7,8 +7,8 @@ This is a simple OAuth2 demo application whose server uses [Spring Boot](http://
 Server was developed following the Spring OAuth2 [guide](http://projects.spring.io/spring-security-oauth/docs/oauth2.html) but it includes the following :
 * It combines **Authorization Server** and **Resource Server** [OAuth roles](https://tools.ietf.org/html/rfc6749#section-1.1).
 * Customized user login and consent pages (JSP views)
-* A management page that enables regular users (`ROLE_USER`) to view tokens and what they have consented to clients. They can also revoke approvals and remove tokens.
-* An [AngularJS](https://angularjs.org) based administration application that allows administrators (`ROLE_ADMIN`) to revoke consents and remove tokens. This application is a bit drastic as it allows the administrator to revoke any (User, Client, Scope) approval triplet as well as remove tokens.
+* A management page (JSP view) that enables regular users (`ROLE_USER`) to view tokens and what they have consented to clients. They can also revoke approvals and remove tokens.
+* An [AngularJS](https://angularjs.org) based administration application that allows administrators (`ROLE_ADMIN`) to revoke consents and remove tokens. This application is a bit drastic as it allows administrators to revoke any (User, Client, Scope) approval triplet as well as remove tokens. When an administrator signs in, they are automatically [password-granted](https://tools.ietf.org/html/rfc6749#section-4.3) an admin token that allows them to access users, clients, consents (user approvals) and tokens as Resources. Admin token is kept in a cookie named `ADMIN_ACCESS_TOKEN`.
 * 11 registered clients (`client0` to `client10`). `client0` is reserved and represents the administration application.
   * Client `client0` is registered with scopes `ADMIN_READ` and `ADMIN_WRITE`.
   * Other clients  are registered with scopes `A`, `B` and `C`.
@@ -16,7 +16,6 @@ Server was developed following the Spring OAuth2 [guide](http://projects.spring.
   * User `admin` has authority `ROLE_ADMIN`
   * Other users have authority `ROLE_USER`
 
-When an administrator signs in, they are automatically [password-granted](https://tools.ietf.org/html/rfc6749#section-4.3) an admin token that allows them to access users, clients, consents (user approvals) and tokens. Admin token is kept in a cookie named `ADMIN_ACCESS_TOKEN`.
 
 ### Endpoints
 |Method|Endpoint|Role|Comment|
