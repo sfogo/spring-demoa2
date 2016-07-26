@@ -1,6 +1,6 @@
 # Spring OAuth2 Demo
 This is a simple OAuth2 demo application whose server uses [Spring Boot](http://projects.spring.io/spring-boot),
-[Spring Security OAuth2](http://projects.spring.io/spring-security-oauth) as well as [Spring MVC](http://docs.spring.io/spring/docs/current/spring-framework-reference/html/mvc.html). You may invoke the server pretty much any way you like (browser location, curl, postman) but you can also drop the [client](/client) application in a web server.
+[Spring Security OAuth2](http://projects.spring.io/spring-security-oauth) as well as [Spring MVC](http://docs.spring.io/spring/docs/current/spring-framework-reference/html/mvc.html). You may invoke the server pretty much any way you like (browser location, curl, postman) but you can also drop this [client](/client) application in a web server.
 
 ## Server
 ### Overview
@@ -18,3 +18,21 @@ Server was developed following the Spring OAuth2 [guide](http://projects.spring.
 When an administrator signs in, they are automatically [password-granted](https://tools.ietf.org/html/rfc6749#section-4.3) an admin token that allows them to access users, clients, consents (user approvals) and tokens. Admin token is kept in a cookie named `ADMIN_ACCESS_TOKEN`.
 
 ### Endpoints
+|Method|Endpoint|Role|Scope|Comment|
+|---|---|---|---|---|
+|Spring defaults|`/oauth/authorize`<br>`/oauth/token`<br>`/oauth/check_token`|Any|n/a|Spring defaults|
+|GET|`/oauth/confirm_access`|Any|n/a|Custom user consent page|
+|GET|`/get_login`|Any|n/a|Custom login page|
+|POST|`/login`|Any|n/a|Spring default|
+|POST|`/logout`|Any|n/a|Spring default|
+|GET|`/app/admin`|`ROLE_ADMIN`|n/a|Access to administration application|
+|GET|`/user`|Any|Any|Returns User Information|
+|GET|`/admin/clients`|`ROLE_ADMIN`|`ADMIN_READ`|Client list|
+|GET|`/admin/users`|`ROLE_ADMIN`|`ADMIN_READ`|User list|
+|GET|`/admin/approvals`|`ROLE_ADMIN`|`ADMIN_READ`|Approval list|
+|GET|`/admin/tokens`|`ROLE_ADMIN`|`ADMIN_READ`|Token list|
+|DELETE|`/admin/approvals`|`ROLE_ADMIN`|`ADMIN_WRITE`|Revoke approval|
+|DELETE|`/admin/tokens`|`ROLE_ADMIN`|`ADMIN_WRITE`|Remove token|
+|GET|`/things/A/{id}`|`ROLE_USER`|`A`|A Things|
+|GET|`/things/B/{id}`|`ROLE_USER`|`B`|B Things|
+|GET|`/things/C/{id}`|`ROLE_USER`|`C`|C Things|
