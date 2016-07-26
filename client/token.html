@@ -1,0 +1,98 @@
+<div class="base" ng-controller="tokenController">
+    <table class="tb01">
+        <tr>
+            <td class="lBox pad4 bg3"><span class="ex00">OAuth2 Client - Token</span></td>
+            <td class="rBox pad4 bg3"><a href="" ng-click="startOver()">Start Over</a></td>
+        </tr>
+
+        <tr>
+            <td class="td01 w150p">Client Identifier</td>
+            <td class="td01">{{clientData.client_id}}</td>
+        </tr>
+
+        <tr>
+            <td class="td01">Client Secret</td>
+            <td class="td01">{{clientData.client_secret}}</td>
+        </tr>
+
+        <tr>
+            <td class="td01">Redirect URI</td>
+            <td class="td01">{{redirectURI}}</td>
+        </tr>
+
+        <tr ng-hide="authorizationCode==null">
+            <td class="td01">Authorization Code</td>
+            <td class="td01">{{authorizationCode}}</td>
+        </tr>
+
+        <tr ng-hide="tokenData===undefined">
+            <td class="td01">Access Token</td>
+            <td class="td01">{{ tokenData | json }}</td>
+        </tr>
+
+        <tr ng-hide="tokenData===undefined">
+            <td class="td01">
+                <input type="button" ng-click="checkAccessToken()" value="Check Token"/>
+            </td>
+            <td class="td01">
+                <div ng-hide="checkData.data==null">
+                    <div>{{ checkData.data | json }}</div>
+                    <div class="ex01"> Expiration: {{ 1000 * checkData.data.exp | date:'medium' }} PST</div></div>
+                <div ng-show="checkData.wheel==true"><img src="wheel.gif" border="0"/></div>
+            </td>
+        </tr>
+
+        <tr ng-hide="tokenData===undefined">
+            <td class="td01">
+                <input type="button" ng-click="makeServiceCall()" value="Service Call"/>&nbsp;
+            </td>
+            <td class="td01">
+                <table class="tb01">
+                    <tr>
+                        <td style="width:72px"><div class="pad4">Status <span class="ex02">{{serviceCall.status}}</span></div></td>
+                        <td style="width:20px"><span ng-show="serviceCall.wheel==true"><img src="wheel.gif" border="0"/></span></td>
+                        <td style="width:72px">
+                            <div class="pad4">
+                                <select ng-model="serviceCall.method">
+                                    <option value="GET">GET</option>
+                                    <option value="POST">POST</option>
+                                </select>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="pad4">
+                                <input style="width:100%" type="text" ng-model="serviceCall.url"/>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4"><div class="pad4">Authorization: Bearer {{ tokenData.access_token }}</div></td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <div class="pad4"><span class="ex01">Request Data</span><br/><textarea style="width:100%;height:150px;" type="text" ng-model="serviceCall.rq"></textarea></div>
+                            <div class="pad4" ng-hide="serviceCall.rs==null"><span class="ex01">Response Data</span><br/>{{serviceCall.rs | json}}</div>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+        <tr ng-show="error==null && tokenData==null">
+            <td class="td01">Access Token</td>
+            <td class="td01">
+                <div><a href="#redirect" ng-click="exchangeCodeForToken()">Exchange Code For Token</a></div>
+            </td>
+        </tr>
+
+        <tr ng-hide="error==null">
+            <td class="td01">Error</td>
+            <td class="td01">
+                <div><span class="bred">{{error}}</span></div>
+                <div ng-show="errorDesc!=null"><span class="bred">{{errorDesc}}</span></div>
+                <div><a href="index.html">Go Back</a></div>
+            </td>
+        </tr>
+
+    </table>
+</div>

@@ -1,0 +1,32 @@
+<div class="base cw60" ng-controller="clientController">
+    <table class="tb01">
+        <tr>
+            <td class="lBox pad4" colspan="2">
+                <span class="ex00">Select OAuth2 Client</span>
+                &nbsp;
+                <select ng-model="clientNumber"
+                        ng-options="c.client_number as c.client_id for c in clients">
+                </select>
+                &nbsp;
+                <input type="button" ng-click="selectClient()" value="Validate"/>&nbsp;
+                &nbsp;
+                <span ng-show="wheel==true"><img src="wheel.gif" border="0"/></span>
+            </td>
+
+            <td class="rBox pad4">
+                <a href="index.html">Back</a>
+            </td>
+        </tr>
+    </table>
+
+    <div class="aBox pad4 tm10">
+        <span>{{getClient() | json}}</span>
+    </div>
+
+    <div class="tm10">
+        <span class="li01">This demo uses Heroku free tier and goes to sleep after 30 minutes of inactivity.</span>&nbsp;
+        <span>Once asleep, it may take a couple of minutes for processes to wake up and the Client dropdown will show empty.</span>&nbsp;
+        <span>Click <a href="https://demoa2.herokuapp.com/test" target="_test_">here</a> to check whether the application is ready.</span>
+    </div>
+
+</div>

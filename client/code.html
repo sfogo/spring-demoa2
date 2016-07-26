@@ -1,0 +1,29 @@
+<div class="base" ng-controller="codeController">
+    <table class="tb01">
+        <tr>
+            <td class="lBox pad4 bg3"><span class="ex00">OAuth2 Client - Code</span></td>
+            <td class="rBox pad4 bg3"><a href="#/client">Change Client</a></td>
+        </tr>
+
+        <tr>
+            <td class="td01 w150p">Client Identifier</td>
+            <td class="td01"><span class="iotValue">{{clientData.client_id}}</span></td>
+        </tr>
+
+        <tr>
+            <td class="td01 w150p">Client Secret</td>
+            <td class="td01"><span class="iotValue">{{clientData.client_secret}}</span></td>
+        </tr>
+
+        <tr>
+            <td class="td01">Redirect URI</td>
+            <td class="td01">{{buildRedirectURI()}}</td>
+        </tr>
+
+        <tr>
+            <td class="td01">Code</td>
+            <td class="td01"><a href="" ng-click="getAuthorizationCode()">Get Authorization Code</a></td>
+        </tr>
+
+    </table>
+</div>

@@ -1,0 +1,28 @@
+<div class="base cw60 aBox pad4 bm10"><span class="ex00">Get Admin Access Token</span></div>
+
+<div class="base cw60 aBox pad4" ng-controller="adminController">
+    <form id="loginForm" name="loginForm" ng-submit="getAdminAccessToken();">
+        <table class="tb01 cw60">
+            <tr>
+                <td align="right"><span class="ex00">Username</span>&nbsp;</td>
+                <td align="center"><input class="w200p" type="text" id="username" ng-model="username"/></td>
+            </tr>
+            <tr>
+                <td  align="right"><span class="ex00">Password</span>&nbsp;</td>
+                <td align="center"><input class="w200p" type="password" id="password" ng-model="password"/></td>
+            </tr>
+
+            <tr ng-show="error==true">
+                <td>&nbsp;</td>
+                <td align="center"><span class="ex01">Invalid Credentials</span></td>
+            </tr>
+
+            <tr>
+                <td width="80px">&nbsp</td>
+                <td width="200px" align="center">
+                    <button class="button1" type="submit"><span>Get Admin Access Token</span></button>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
