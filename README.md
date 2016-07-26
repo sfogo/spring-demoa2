@@ -18,14 +18,17 @@ Server was developed following the Spring OAuth2 [guide](http://projects.spring.
 When an administrator signs in, they are automatically [password-granted](https://tools.ietf.org/html/rfc6749#section-4.3) an admin token that allows them to access users, clients, consents (user approvals) and tokens. Admin token is kept in a cookie named `ADMIN_ACCESS_TOKEN`.
 
 ### Endpoints
-|Method|Endpoint|Role|Scope|Comment|
+|Method|Endpoint|Role|Comment|
+|---|---|---|---|
+|Spring defaults|`/oauth/authorize`<br>`/oauth/token`<br>`/oauth/check_token`|Any|Spring defaults|
+|POST|`/login`<br>`/logout`|Any|Spring defaults|
+|GET|`/oauth/confirm_access`|Any|Custom user consent page|
+|GET|`/get_login`|Any|Custom login page|
+|GET|`/app/admin`|`ROLE_ADMIN`|Access to administration application|
+
+### Resource Endpoints
+|Method|Endpoint|Required Role|Required Scope|Comment|
 |---|---|---|---|---|
-|Spring defaults|`/oauth/authorize`<br>`/oauth/token`<br>`/oauth/check_token`|Any|n/a|Spring defaults|
-|GET|`/oauth/confirm_access`|Any|n/a|Custom user consent page|
-|GET|`/get_login`|Any|n/a|Custom login page|
-|POST|`/login`|Any|n/a|Spring default|
-|POST|`/logout`|Any|n/a|Spring default|
-|GET|`/app/admin`|`ROLE_ADMIN`|n/a|Access to administration application|
 |GET|`/user`|Any|Any|Returns User Information|
 |GET|`/admin/clients`|`ROLE_ADMIN`|`ADMIN_READ`|Client list|
 |GET|`/admin/users`|`ROLE_ADMIN`|`ADMIN_READ`|User list|
