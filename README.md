@@ -7,7 +7,8 @@ This is a simple OAuth2 demo application whose server uses [Spring Boot](http://
 Server was developed following the Spring OAuth2 [guide](http://projects.spring.io/spring-security-oauth/docs/oauth2.html) but it includes the following :
 * It combines **Authorization Server** and **Resource Server** [OAuth roles](https://tools.ietf.org/html/rfc6749#section-1.1).
 * Customized user login and consent pages (JSP views)
-* An [AngularJS](https://angularjs.org) based administration application that allows an administrator to revoke consents and remove tokens.
+* A management page that enables regular users (`ROLE_USER`) to view tokens and what they have consented to clients. They can also revoke approvals and remove tokens.
+* An [AngularJS](https://angularjs.org) based administration application that allows administrators (`ROLE_ADMIN`) to revoke consents and remove tokens. This application is a bit drastic as it allows the administrator to revoke any (User, Client, Scope) approval triplet as well as remove tokens.
 * 11 registered clients (`client0` to `client10`). `client0` is reserved and represents the administration application.
   * Client `client0` is registered with scopes `ADMIN_READ` and `ADMIN_WRITE`.
   * Other clients  are registered with scopes `A`, `B` and `C`.
@@ -25,6 +26,8 @@ When an administrator signs in, they are automatically [password-granted](https:
 |GET|`/oauth/confirm_access`|Any|Custom user consent page|
 |GET|`/get_login`|Any|Custom login page|
 |GET|`/app/admin`|`ROLE_ADMIN`|Access to administration application|
+|GET|`/app/manage`|`ROLE_USER`|View approvals and tokens|
+|POST|`/app/manage`|`ROLE_USER`|Submit revokes and token removals|
 
 ### Resource Endpoints
 |Method|Endpoint|Required Role|Required Scope|Comment|
