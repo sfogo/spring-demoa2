@@ -1,0 +1,1 @@
+<div class="aBox cw80 pad4 bg1"><span class="pad4 fs90"><%= new java.util.Date().toString() %></span></div>

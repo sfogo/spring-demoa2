@@ -1,0 +1,25 @@
+<div class="mg4" ng-controller="userController">
+    <div class="aBox pad4 bg5 bm10"><span class="ex00">Users</span></div>
+    <table ng-show="error==null" class="tb01">
+        <tr>
+            <td class="td00"><span class="ex00">Name</span></td>
+            <td class="td00"><span class="ex00">Authorities</span></td>
+            <td class="td00"><span class="ex00">Enabled</span></td>
+            <td class="td00"><span class="ex00">Expired</span></td>
+            <td class="td00"><span class="ex00">Locked</span></td>
+            <td class="td00"><span ng-show="wheel==true">&nbsp;<img src="/images/wheel.gif" border="0"/></span></td>
+        </tr>
+        <tr ng-repeat="u in users">
+            <td class="tdUP">{{ u.username }}</td>
+            <!-- <td class="tdUP">{{ u.authorities }}</td> -->
+            <td class="tdUP">
+                <span class="roundedVal" ng-repeat="a in u.authorities">{{ a.authority.substring(5) }}</span>
+            </td>
+            <td class="tdUP">{{ u.enabled }}</td>
+            <td class="tdUP">{{ ! u.credentialsNonExpired }}</td>
+            <td class="tdUP">{{ ! u.accountNonLocked }}</td>
+            <td class="tdUP">&nbsp;</td>
+        </tr>
+    </table>
+    <div ng-hide="error==null" class="aBox pad4 bm10"><span class="ex01"> {{ error }}</span></div>
+</div>

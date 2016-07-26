@@ -1,0 +1,26 @@
+<div class="mg4" ng-controller="tokenController">
+    <div class="aBox pad4 bg5 bm10"><span class="ex00">OAuth2 Tokens</span></div>
+    <table ng-show="error==null" class="tb01">
+        <tr>
+            <td class="td00"><span class="ex00">User</span></td>
+            <td class="td00"><span class="ex00">Client</span></td>
+            <td class="td00"><span class="ex00">Token</span></td>
+            <td class="td00"><span class="ex00">Type</span></td>
+            <td class="td00"><span class="ex00">Scopes</span></td>
+            <td class="td00"><span class="ex00">Expires In</span></td>
+            <td class="td00"><span ng-show="wheel==true">&nbsp;<img src="/images/wheel.gif" border="0"/></span></td>
+        </tr>
+        <tr ng-repeat="t in tokens">
+            <td class="tdUP">{{ t.username }}</td>
+            <td class="tdUP">{{ t.clientId }}</td>
+            <td class="tdUP"><a class="elm01" href ng-click="tokenPopup(t.access_token);">{{ t.access_token }}</a></td>
+            <td class="tdUP">{{ t.token_type }}</td>
+            <td class="tdUP">{{ t.scope }}</td>
+            <td class="tdUP">{{ (t.expires_in - (t.expires_in % 3600))/3600 }}h {{ (t.expires_in % 3600 - ((t.expires_in % 3600) % 60))/60 }}m {{ t.expires_in % 60 }}s</td>
+            <td class="tdUP">
+                <a class="elm01" href="" ng-click="removeToken(t.username, t.clientId, t.access_token)">Remove</a>
+            </td>
+        </tr>
+    </table>
+    <div ng-hide="error==null" class="aBox pad4 bm10"><span class="ex01"> {{ error }}</span></div>
+</div>

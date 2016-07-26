@@ -1,0 +1,26 @@
+<div class="mg4" ng-controller="approvalController">
+    <div class="aBox pad4 bg5 bm10"><span class="ex00">User Approvals</span></div>
+    <table ng-show="error==null" class="tb01">
+        <tr>
+            <td class="td00"><span class="ex00">User</span></td>
+            <td class="td00"><span class="ex00">Client</span></td>
+            <td class="td00"><span class="ex00">Scope</span></td>
+            <td class="td00"><span class="ex00">Status</span></td>
+            <td class="td00"><span class="ex00">Expires</span></td>
+            <td class="td00"><span class="ex00">Updated</span></td>
+            <td class="td00"><span ng-show="wheel==true">&nbsp;<img src="/images/wheel.gif" border="0"/></span></td>
+        </tr>
+        <tr ng-repeat="a in approvals">
+            <td class="tdUP">{{ a.userId }}</td>
+            <td class="tdUP">{{ a.clientId }}</td>
+            <td class="tdUP">{{ a.scope }}</td>
+            <td class="tdUP">{{ a.status }}</td>
+            <td class="tdUP">{{ a.expiresAt | date:'medium' }}</td>
+            <td class="tdUP">{{ a.lastUpdatedAt | date:'medium' }}</td>
+            <td class="tdUP">
+                <a class="elm01" href="" ng-click="revoke(a.userId, a.clientId, a.scope)">Revoke</a>
+            </td>
+        </tr>
+    </table>
+    <div ng-hide="error==null" class="aBox pad4 bm10"><span class="ex01"> {{ error }}</span></div>
+</div>

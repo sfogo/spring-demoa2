@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en-US" ng-app="admin">
+
+<head>
+    <link rel="stylesheet" type="text/css" href="/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="/css/modals.css" />
+
+    <script type="text/javascript" src="/js/angular.min.js"></script>
+    <script type="text/javascript" src="/js/angular-route.min.js"></script>
+    <script type="text/javascript" src="/js/angular-cookies.min.js"></script>
+    <script type="text/javascript" src="/js/admin-app.js"></script>
+    <!-- modals -->
+    <script type="text/javascript" src="/js/angular-animate.min.js"></script>
+    <script type="text/javascript" src="/js/angular-modal-service.js"></script>
+    <title>Admin App</title>
+</head>
+
+<body>
+
+<div class="base cw80 aBox pad4 bm10 h20p bg1">
+    <div class="fltL pad4">
+        <span class="iotValue">Admin App</span>&nbsp;
+        <a class="elm01" href="#/">Welcome</a>&nbsp;
+        <a class="elm01" href="#/clients">Clients</a>&nbsp;
+        <a class="elm01" href="#/users">Users</a>&nbsp;
+        <a class="elm01" href="#/approvals">Approvals</a>&nbsp;
+        <a class="elm01" href="#/tokens">Tokens</a>&nbsp;
+    </div>
+    <div class="fltR pad4">
+        <a class="elm01" href="/home">Home</a>
+    </div>
+</div>
+
+<div class="base cw80 aBox pad4" ng-view=""></div>
+
+</body>
+</html>

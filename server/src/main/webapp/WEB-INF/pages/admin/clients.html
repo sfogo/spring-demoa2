@@ -1,0 +1,33 @@
+<div class="mg4" ng-controller="clientController">
+    <div class="aBox pad4 bg5 bm10"><span class="ex00">Clients</span></div>
+    <table ng-show="error==null" class="tb01">
+        <tr>
+            <td class="td00"><span class="ex00">#</span></td>
+            <td class="td00"><span class="ex00">ID</span></td>
+            <td class="td00"><span class="ex00">Resources</span></td>
+            <td class="td00"><span class="ex00">Authorities</span></td>
+            <td class="td00"><span class="ex00">Scopes</span></td>
+            <td class="td00"><span class="ex00">Authorized Grant Types</span></td>
+            <td class="td00"><span ng-show="wheel==true">&nbsp;<img src="/images/wheel.gif" border="0"/></span></td>
+        </tr>
+        <tr ng-repeat="c in clients">
+            <td class="tdUP">{{ c.client_number }}</td>
+            <td class="tdUP">{{ c.client_id }}</td>
+            <td class="tdUP">
+                <span class="roundedVal" ng-repeat="r in c.resource_ids">{{ r }}</span>
+            </td>
+            <td class="tdUP">
+                <span class="roundedVal" ng-repeat="a in c.authorities">{{ a.substring(5) }}</span>
+            </td>
+            <td class="tdUP">
+                <span class="roundedVal" ng-repeat="s in c.scope">{{ s }}</span>
+            </td>
+            <td class="tdUP">
+                <span class="roundedVal" ng-repeat="t in c.authorized_grant_types">{{ t }}</span>
+            </td>
+            <td class="tdUP">&nbsp;</td>
+        </tr>
+    </table>
+    <div ng-hide="error==null" class="aBox pad4 bm10"><span class="ex01"> {{ error }}</span></div>
+
+</div>

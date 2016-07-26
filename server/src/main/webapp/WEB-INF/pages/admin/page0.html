@@ -1,0 +1,11 @@
+<div class="mg4" ng-controller="page0Controller">
+    <div class="aBox pad4 bg5 bm10"><span class="ex00">Welcome</span></div>
+    <div class="aBox pad4">
+        <span>Admin Access Token : {{ token }}</span>
+        <div ng-show="error==true"><span class="ex01">This token is now invalid.
+        Log out and log back in with administrator credentials.</span></div>
+        <div ng-hide="error==true"><span class="ex01">This token is valid.</span></div>
+        <div>&nbsp;</div>
+        <div><span>{{ data }}</span></div>
+    </div>
+</div>

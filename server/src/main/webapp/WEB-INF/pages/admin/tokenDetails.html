@@ -1,0 +1,89 @@
+<div id="custom-modal">
+    <div class="base" id="overlay">
+        <div>
+            <div class="fltL aBox bg5 pad4 h14p brd4"><span class="ex00">Token Details</span></div>
+            <div class="fltL aBox bg5 pad4 h14p mgL10 brd4"><span class="json boom">{{ token }}</span></div>
+            <div class="fltL h14p padLM" ng-show="wheel==true"><img src="/images/wheel.gif" border="0" /></div>
+            <div class="fltR aBox bg5 pad4 h14p brd4"><a class="elm01" href ng-click="close(true)">Close</a></div>
+        </div>
+        <div style="clear:left;margin-top:30px;">
+            <table class="tm10 tb01">
+                <tr>
+                    <td>Username</td>
+                    <td>{{ data.name }}</td>
+                </tr>
+                <tr>
+                    <td>Principal</td>
+                    <td>{{ data.principal }}</td>
+                </tr>
+                <tr>
+                    <td>Remote Address</td>
+                    <td>{{ data.details.remoteAddress }}</td>
+                </tr>
+                <tr>
+                    <td>Token Type</td>
+                    <td>{{ data.details.tokenType }}</td>
+                </tr>
+                <tr>
+                    <td>Token Value</td>
+                    <td>{{ data.details.tokenValue }}</td>
+                </tr>
+                <tr>
+                    <td>Authorities</td>
+                    <td>{{ data.authorities }}</td>
+                </tr>
+                <tr>
+                    <td>User Authentication Grant Type</td>
+                    <td>{{ data.userAuthentication.details.grant_type }}</td>
+                </tr>
+                <tr>
+                    <td>User Authentication Scopes</td>
+                    <td>{{ data.userAuthentication.details.scope }}</td>
+                </tr>
+                <tr>
+                    <td colspan="2">OAuth2 Request</td>
+                </tr>
+                <tr>
+                    <td class="padLM">Client Identifier</td>
+                    <td>{{ data.oauth2Request.clientId }}</td>
+                </tr>
+                <tr>
+                    <td class="padLM">Scopes</td>
+                    <td>{{ data.oauth2Request.scope }}</td>
+                </tr>
+                <tr>
+                    <td class="padLM">Grant Type</td>
+                    <td>{{ data.oauth2Request.grantType }}</td>
+                </tr>
+                <tr>
+                    <td class="padLM">Resources</td>
+                    <td>{{ data.oauth2Request.resourceIds }}</td>
+                </tr>
+                <tr>
+                    <td class="padLM" colspan="2">Request Parameters</td>
+                </tr>
+                <tr>
+                    <td class="padLL">Response Type</td>
+                    <td>{{ data.oauth2Request.requestParameters.response_type }}</td>
+                </tr>
+                <tr>
+                    <td class="padLL">Redirect URI</td>
+                    <td>{{ data.oauth2Request.requestParameters.redirect_uri }}</td>
+                </tr>
+                <tr>
+                    <td class="padLL">Code</td>
+                    <td>{{ data.oauth2Request.requestParameters.code }}</td>
+                </tr>
+                <tr>
+                    <td class="padLL">Grant Type</td>
+                    <td>{{ data.oauth2Request.requestParameters.grant_type }}</td>
+                </tr>
+                <tr>
+                    <td class="padLL">Client Identifier</td>
+                    <td>{{ data.oauth2Request.requestParameters.client_id }}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div id="fade"></div>
+</div>
