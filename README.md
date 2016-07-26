@@ -5,7 +5,7 @@ This is a simple OAuth2 demo application whose server uses [Spring Boot](http://
 ## Server
 ### Overview
 Server was developed following the Spring OAuth2 [guide](http://projects.spring.io/spring-security-oauth/docs/oauth2.html) but it includes the following :
-* It combines `Authorization Server` and `Resource Server` [OAuth roles](https://tools.ietf.org/html/rfc6749#section-1.1).
+* It combines **Authorization Server** and **Resource Server** [OAuth roles](https://tools.ietf.org/html/rfc6749#section-1.1).
 * Customized user login and consent pages (JSP views)
 * An [AngularJS](https://angularjs.org) based administration application that allows an administrator to revoke consents and remove tokens.
 * 11 registered clients (`client0` to `client10`). `client0` is reserved and represents the administration application.
