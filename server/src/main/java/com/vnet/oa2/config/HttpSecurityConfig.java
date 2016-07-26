@@ -18,7 +18,8 @@ public class HttpSecurityConfig extends WebSecurityConfigurerAdapter {
         http.requestMatchers().antMatchers("/", "/get_login", "/login", "/logout", "/oauth/authorize", "/oauth/confirm_access", "/home", "/test", "/app/**").and()
             .authorizeRequests().antMatchers(HttpMethod.GET, "/", "/get_login", "/logout", "/test").permitAll().and()
             .authorizeRequests().antMatchers(HttpMethod.POST, "/login").permitAll().and()
-            .authorizeRequests().antMatchers("/app/**").hasRole(Users.Role.ADMIN.getValue()).and()
+            .authorizeRequests().antMatchers("/app/manage").hasRole(Users.Role.USER.getValue()).and()
+            .authorizeRequests().antMatchers("/app/admin").hasRole(Users.Role.ADMIN.getValue()).and()
             .authorizeRequests().anyRequest().fullyAuthenticated().and()
             .formLogin().loginPage("/get_login").loginProcessingUrl("/login").and()
             .logout().deleteCookies(Users.ADMIN_ACCESS_TOKEN);

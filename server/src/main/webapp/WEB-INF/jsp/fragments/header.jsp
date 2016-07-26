@@ -17,7 +17,11 @@
         <td class="base td00R">
         <% if (user.isThere()) { %>
             Logged in as <span class="iotValue"><%= user.getUsername() %></span>&nbsp;
-            <% if (user.isAdmin()) { %><a class="elm01" href="${contextPath}/app/admin">Administer</a>&nbsp;<% } %>
+            <% if (user.isAdmin()) { %>
+                <a class="elm01" href="${contextPath}/app/admin">Administer</a>&nbsp;
+            <% } else { %>
+                <a class="elm01" href="${contextPath}/app/manage">Manage</a>&nbsp;
+            <% } %>
             <a class="elm01" href="#" onclick="submitLogoutForm();">Logout</a>
         <% } %>
         </td>

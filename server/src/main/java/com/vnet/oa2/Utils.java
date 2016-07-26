@@ -6,6 +6,7 @@ import org.springframework.security.web.FilterChainProxy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
+import sun.reflect.annotation.ExceptionProxy;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterRegistration;
@@ -18,6 +19,7 @@ import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.StringTokenizer;
 
 
 /**
@@ -158,4 +160,53 @@ public class Utils {
             logger.info("A> " + name + ":" + session.getAttribute(name));
         }
     }
+
+    // ------------------------------------
+    // Utility class to minimize inputs
+    // when posting the "manage" JSP that
+    // handles removals.
+    // ------------------------------------
+    static private class Sequence {
+        private int value;
+        public Sequence() {this.value = 0;}
+        public Sequence(int value) {this.value = value;}
+        public synchronized int nextValue() {return value++;}
+    }
+
+    static public class RemovalKey {
+        static private Sequence sequence = new Sequence();
+        static private String SEP = ":";
+
+        public String getClientId() {return clientId;}
+        public String getTag() {return tag;}
+
+        public boolean isApproval() {return "approval".equals(this.prefix);}
+        public boolean isToken() {return "token".equals(this.prefix);}
+
+        private final String prefix;
+        private final String clientId;
+        private final String tag;
+        private final int index;
+
+        public RemovalKey(String prefix, String clientId, String tag) {
+            this.prefix = prefix;
+            this.clientId = clientId;
+            this.tag = tag;
+            this.index = sequence.nextValue();
+        }
+
+        public RemovalKey(String value) throws Exception {
+            final StringTokenizer tokenizer = new StringTokenizer(value,SEP);
+            if (tokenizer.countTokens()==4) {
+                this.prefix = tokenizer.nextToken();
+                this.clientId = tokenizer.nextToken();
+                this.tag = tokenizer.nextToken();
+                this.index = Integer.parseInt(tokenizer.nextToken());
+            } else throw new Exception("Invalid Removal Key");
+        }
+        public String getValue() {
+            return this.prefix + SEP + this.clientId + SEP + this.tag + SEP + this.index;
+        }
+    }
+
 }
