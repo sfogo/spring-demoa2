@@ -108,7 +108,6 @@ public class Views {
     public ModelAndView managed(@RequestParam Map<String, String> parameters,
                                 Map<String, Object> model,
                                 Principal principal) {
-        model.put("_headerText", "Manage");
         for (String key : parameters.keySet()) {
             try {
                 final Utils.RemovalKey removalKey = new Utils.RemovalKey(key);
@@ -120,10 +119,8 @@ public class Views {
                 }
             } catch (Exception e) {}
         }
-        // Reload
-        model.put("_approvals", delegate.getApprovals(principal.getName()));
-        model.put("_tokens", delegate.getTokens(principal.getName()));
-        return new ModelAndView("manage", model);
+        // Reload same view
+        return manage(model,principal);
     }
 
     /**
