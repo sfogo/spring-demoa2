@@ -18,13 +18,17 @@
     -->
 
     <% if (request.getAttribute("javax.servlet.error.message") != null) { %>
-         <div><span class="boom">Message</span> : <span><%= request.getAttribute("javax.servlet.error.message") %></span></div>
+         <div><span class="li01"><%= request.getAttribute("javax.servlet.error.message") %></span></div>
     <% } else if (request.getAttribute("_error") != null) { %>
          <div><span class="li01"><%= request.getAttribute("_error") %></span></div>
     <% } %>
 
     <% if (request.getAttribute("_warning") != null) { %>
         <div><span class="ex01"><%= request.getAttribute("_warning") %></span></div>
+    <% } %>
+
+    <% if (request.getAttribute("javax.servlet.error.exception") != null) { %>
+        <div><span class="ex01"><%= request.getAttribute("javax.servlet.error.exception") %></span></div>
     <% } %>
     </div>
 </div>

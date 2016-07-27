@@ -18,6 +18,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.security.Principal;
+import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -30,6 +31,14 @@ public class Views {
     @RequestMapping(value="/app/admin", method = RequestMethod.GET)
     public RedirectView admin(HttpServletRequest request) {
         return new RedirectView(Utils.sameHostRedirectURL(request,"/app/admin/index.html"));
+    }
+
+    @RequestMapping("/oauth/error")
+    public ModelAndView oauthError(HttpServletRequest request) {
+        final Map<String, Object> model = new HashMap<>();
+        model.put("_headerText", "Error");
+        model.put("_message", "OAuth Error");
+        return new ModelAndView("message", model);
     }
 
     @RequestMapping("/oauth/confirm_access")
