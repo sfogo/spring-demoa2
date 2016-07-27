@@ -81,7 +81,7 @@
     // Approval Controller
     // ===========================
     app.controller('approvalController', function($scope,$http) {
-        $scope.approvals = [];
+        $scope.approvals = null;
         $scope.error = null;
         $scope.wheel = false;
 
@@ -108,7 +108,7 @@
             };
             $http(request).then(
                 function(response) {$scope.wheel = false; $scope.getApprovals();},
-                function(response) {$scope.wheel = false;}
+                function(response) {$scope.wheel = false; $scope.error = formatError(response);}
             );
         };
 
@@ -137,7 +137,7 @@
     // Token Controller
     // ===========================
     app.controller('tokenController', function($scope,$http,ModalService) {
-        $scope.tokens = [];
+        $scope.tokens = null;
         $scope.error = null;
         $scope.wheel = false;
 
@@ -177,7 +177,7 @@
             };
             $http(request).then(
                 function(response) {$scope.wheel = false; $scope.getTokens();},
-                function(response) {$scope.wheel = false;}
+                function(response) {$scope.wheel = false; $scope.error = formatError(response);}
             );
         };
     });

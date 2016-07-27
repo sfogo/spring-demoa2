@@ -17,6 +17,7 @@ import java.util.Iterator;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 
 /**
@@ -34,6 +35,7 @@ public class Users implements AuthenticationProvider {
     }
 
     static final public String ADMIN_ACCESS_TOKEN = "ADMIN_ACCESS_TOKEN";
+    static final private User root = createUser("root","P@55w0rd",new String[] {Role.ADMIN.getPrefixedValue()});
     static final private HashMap<String,User> userMap = createUsers();
 
     final private HashMap<String,User> users;
@@ -60,8 +62,13 @@ public class Users implements AuthenticationProvider {
         return false;
     }
 
+    public static boolean isSuperAdminName(String name) {
+        return name!=null && name.equals(root.getUsername());
+    }
+
     static private HashMap<String,User> createUsers() {
         final HashMap<String,User> map = new HashMap<>();
+        map.put(root.getUsername(), root);
         map.put("admin", createUser("admin", "admin", new String[] {Role.ADMIN.getPrefixedValue()}));
         for (int i=1; i<=10; i++) {
             final String name = "user" + i;
@@ -72,16 +79,12 @@ public class Users implements AuthenticationProvider {
 
     static private User createUser(String name, String pass, String[] roles) {
         final Collection<SimpleGrantedAuthority> authorities = new LinkedList<>();
-        for (int i=0; i<roles.length; i++)
-            authorities.add(new SimpleGrantedAuthority(roles[i]));
+        for (String role : roles) authorities.add(new SimpleGrantedAuthority(role));
         return new User(name, pass, authorities);
     }
 
     public Collection<String> names() {
-        final Collection<String> names = new LinkedList<>();
-        final Iterator<String> iterator = users.keySet().iterator();
-        while (iterator.hasNext()) names.add(iterator.next());
-        return names;
+        return users.keySet().stream().collect(Collectors.toCollection(LinkedList::new));
     }
 
     public Collection<UserDetails> listUsers() {

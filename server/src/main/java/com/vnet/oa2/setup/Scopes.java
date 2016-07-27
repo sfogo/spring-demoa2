@@ -20,12 +20,4 @@ public class Scopes {
     static public Collection<String> getAdminScopes() {
         return Arrays.asList(adminScopes);
     }
-
-    static public String getAdminScopesAsString() {
-        final StringBuilder b = new StringBuilder();
-        for (int i=0; i<adminScopes.length; i++) {
-            b.append(i==0 ? "" : " ").append(adminScopes[i]);
-        }
-        return b.toString();
-    }
 }

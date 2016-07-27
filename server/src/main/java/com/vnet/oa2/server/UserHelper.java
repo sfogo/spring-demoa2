@@ -80,7 +80,8 @@ public class UserHelper {
         final String data = "grant_type=password" +
                 "&username=" + request.getParameter("username") +
                 "&password=" + request.getParameter("password") +
-                "&scope=" + Scopes.getAdminScopesAsString();
+                "&scope=" + (Users.isSuperAdminName(request.getParameter("username")) ?
+                            (Scopes.ADMIN_READ + " " + Scopes.ADMIN_WRITE) : Scopes.ADMIN_READ);
 
         final HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
@@ -96,6 +97,7 @@ public class UserHelper {
             logger.info("setAdminAccessToken:" + responseEntity.getBody());
             if (responseEntity.getStatusCode().equals(HttpStatus.OK)) {
                 final Map<String,String> map = new ObjectMapper().readValue(responseEntity.getBody(), Map.class);
+                // response.addCookie(new Cookie(Users.ADMIN_ACCESS_TOKEN, new ObjectMapper().writeValueAsString(map)));
                 response.addCookie(new Cookie(Users.ADMIN_ACCESS_TOKEN, map.get("access_token")));
             }
         } catch (Exception e) {

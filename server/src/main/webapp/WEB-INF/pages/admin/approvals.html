@@ -1,6 +1,6 @@
 <div class="mg4" ng-controller="approvalController">
     <div class="aBox pad4 bg5 bm10"><span class="ex00">User Approvals</span></div>
-    <table ng-show="error==null" class="tb01">
+    <table ng-show="approvals" class="tb01">
         <tr>
             <td class="td00"><span class="ex00">User</span></td>
             <td class="td00"><span class="ex00">Client</span></td>
@@ -22,5 +22,5 @@
             </td>
         </tr>
     </table>
-    <div ng-hide="error==null" class="aBox pad4 bm10"><span class="ex01"> {{ error }}</span></div>
+    <div ng-hide="error==null" class="pad4 tm10"><span class="ex01"> {{ error }}</span></div>
 </div>
