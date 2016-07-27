@@ -1,7 +1,9 @@
 (function() {
 
     var app = angular.module('admin', ['ngRoute', 'ngCookies','angularModalService', 'ngAnimate']);
+    var adminAccessTokenValue = null;
     var adminAccessToken = null;
+    var adminWriter = false;
     var contextURL = getContextURL();
 
     app.config(function($routeProvider) {
@@ -31,7 +33,7 @@
             var request = {
                 method : 'GET',
                 url : contextURL + '/admin/clients',
-                headers : {'Authorization' : 'Bearer ' + adminAccessToken}
+                headers : {'Authorization' : 'Bearer ' + adminAccessTokenValue}
             };
             $http(request).then(
                 function(response) {
@@ -60,7 +62,7 @@
             var request = {
                 method : 'GET',
                 url : contextURL + '/admin/users',
-                headers : {'Authorization' : 'Bearer ' + adminAccessToken}
+                headers : {'Authorization' : 'Bearer ' + adminAccessTokenValue}
             };
             $http(request).then(
                 function(response) {
@@ -90,7 +92,7 @@
             var request = {
                 method : 'GET',
                 url : contextURL + '/admin/approvals',
-                headers : {'Authorization' : 'Bearer ' + adminAccessToken}
+                headers : {'Authorization' : 'Bearer ' + adminAccessTokenValue}
             };
             $http(request).then(
                 function(response) {$scope.wheel = false; $scope.approvals = response.data;},
@@ -104,7 +106,7 @@
             var request = {
                 method : 'DELETE',
                 url : contextURL + '/admin/approvals?user=' + u + '&client=' + c + '&scope=' + s,
-                headers : {'Authorization' : 'Bearer ' + adminAccessToken}
+                headers : {'Authorization' : 'Bearer ' + adminAccessTokenValue}
             };
             $http(request).then(
                 function(response) {$scope.wheel = false; $scope.getApprovals();},
@@ -159,7 +161,7 @@
             var request = {
                 method : 'GET',
                 url : contextURL + '/admin/tokens',
-                headers : {'Authorization' : 'Bearer ' + adminAccessToken}
+                headers : {'Authorization' : 'Bearer ' + adminAccessTokenValue}
             };
             $http(request).then(
                 function(response) {$scope.wheel = false; $scope.tokens = response.data;},
@@ -173,7 +175,7 @@
             var request = {
                 method : 'DELETE',
                 url : contextURL + '/admin/tokens/' + token,
-                headers : {'Authorization' : 'Bearer ' + adminAccessToken}
+                headers : {'Authorization' : 'Bearer ' + adminAccessTokenValue}
             };
             $http(request).then(
                 function(response) {$scope.wheel = false; $scope.getTokens();},
@@ -188,17 +190,27 @@
     app.controller('page0Controller', function($scope,$http,$cookies) {
         $scope.error = false;
         $scope.data = null;
-        adminAccessToken = $cookies.get('ADMIN_ACCESS_TOKEN');
         $scope.token = $cookies.get('ADMIN_ACCESS_TOKEN');
+        adminAccessTokenValue = $scope.token;
 
         var request = {
             method : 'GET',
-            url : contextURL + '/oauth/check_token?token=' + adminAccessToken,
+            url : contextURL + '/oauth/check_token?token=' + adminAccessTokenValue,
             headers : {'Authorization' : 'Basic Y2xpZW50MDpQQDU1dzByZDA='}
         };
         $http(request).then(
-            function(response) {$scope.data = response.data; $scope.error = false;},
-            function(response) {$scope.data = response.data; $scope.error = true;}
+            function(response) {
+                $scope.data = response.data;
+                $scope.error = false;
+                adminAccessToken = response.data;
+                adminWriter = canWrite(adminAccessToken);
+            },
+            function(response) {
+                $scope.data = response.data;
+                $scope.error = true;
+                adminAccessToken = null;
+                adminWriter = false;
+            }
         );
 
     });
@@ -223,6 +235,14 @@ function removeQuery(url) {
 
 function formatError(response) {
     return 'ERROR ' + response.status + ' ' + response.data.error_description;
+}
+
+function canWrite(token) {
+    var scopes = token.scope;
+    for (i=0; i<scopes.length; i++) {
+        if ('ADMIN_WRITE' == scopes[i]) return true;
+    }
+    return false;
 }
 
 function getContextURL() {

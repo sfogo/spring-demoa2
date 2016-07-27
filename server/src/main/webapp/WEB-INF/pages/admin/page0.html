@@ -2,10 +2,21 @@
     <div class="aBox pad4 bg5 bm10"><span class="ex00">Welcome</span></div>
     <div class="aBox pad4">
         <span>Admin Access Token : {{ token }}</span>
-        <div ng-show="error==true"><span class="ex01">This token is now invalid.
-        Log out and log back in with administrator credentials.</span></div>
-        <div ng-hide="error==true"><span class="ex01">This token is valid.</span></div>
-        <div>&nbsp;</div>
-        <div><span>{{ data }}</span></div>
+
+        <div ng-hide="error==true">
+            <div><span class="ex01">This token is valid.</span></div>
+            <div><span>Resources : {{ data.aud }}</span></div>
+            <div><span>User : {{ data.user_name }}</span></div>
+            <div><span>Client : {{ data.client_id }}</span></div>
+            <div><span>Scopes : {{ data.scope }}</span></div>
+            <div><span>Expiration : {{ data.exp }}</span></div>
+            <div><span>Authorities : {{ data.authorities }}</span></div>
+        </div>
+
+        <div ng-show="error==true">
+            <div><span class="ex01">This token is now invalid. Log out and log back in with administrator credentials.</span></div>
+            <div><span>{{ data }}</span></div>
+        </div>
+
     </div>
 </div>
