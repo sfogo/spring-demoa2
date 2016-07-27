@@ -161,11 +161,6 @@ public class Utils {
         }
     }
 
-    // ------------------------------------
-    // Utility class to minimize inputs
-    // when posting the "manage" JSP that
-    // handles removals.
-    // ------------------------------------
     static private class Sequence {
         private int value;
         public Sequence() {this.value = 0;}
@@ -173,29 +168,36 @@ public class Utils {
         public synchronized int nextValue() {return value++;}
     }
 
-    static public class RemovalKey {
+    // ------------------------------------
+    // Utility class to groups inputs
+    // when posting the "manage" JSP that
+    // handles removals. Input keys are
+    // encoded in the JSP and decoded in
+    // the endpoint.
+    // ------------------------------------
+    static public class InputKey {
         static private Sequence sequence = new Sequence();
         static private String SEP = ":";
 
         public String getClientId() {return clientId;}
         public String getTag() {return tag;}
 
-        public boolean isApproval() {return "approval".equals(this.prefix);}
-        public boolean isToken() {return "token".equals(this.prefix);}
+        public boolean forApproval() {return "approval".equals(this.prefix);}
+        public boolean forToken() {return "token".equals(this.prefix);}
 
         private final String prefix;
         private final String clientId;
         private final String tag;
         private final int index;
 
-        public RemovalKey(String prefix, String clientId, String tag) {
+        public InputKey(String prefix, String clientId, String tag) {
             this.prefix = prefix;
             this.clientId = clientId;
             this.tag = tag;
             this.index = sequence.nextValue();
         }
 
-        public RemovalKey(String value) throws Exception {
+        public InputKey(String value) throws Exception {
             final StringTokenizer tokenizer = new StringTokenizer(value,SEP);
             if (tokenizer.countTokens()==4) {
                 this.prefix = tokenizer.nextToken();

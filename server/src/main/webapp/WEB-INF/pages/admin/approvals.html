@@ -18,7 +18,9 @@
             <td class="tdUP">{{ a.expiresAt | date:'medium' }}</td>
             <td class="tdUP">{{ a.lastUpdatedAt | date:'medium' }}</td>
             <td class="tdUP">
-                <a class="elm01" href="" ng-click="revoke(a.userId, a.clientId, a.scope)">Revoke</a>
+                <div ng-show="write==true">
+                    <a class="elm01" href="" ng-click="revoke(a.userId, a.clientId, a.scope)">Revoke</a>
+                </div>
             </td>
         </tr>
     </table>

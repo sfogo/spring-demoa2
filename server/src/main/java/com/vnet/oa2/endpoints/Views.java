@@ -33,7 +33,7 @@ public class Views {
     }
 
     @RequestMapping("/oauth/confirm_access")
-    public ModelAndView getConfirmAccessView(Map<String, Object> model, HttpServletRequest request) throws Exception {
+    public ModelAndView consent(Map<String, Object> model, HttpServletRequest request) throws Exception {
         if (request.getAttribute("_csrf") != null) {
             model.put("_csrf", request.getAttribute("_csrf"));
         }
@@ -47,7 +47,7 @@ public class Views {
     }
 
     @RequestMapping(value="/home", method = RequestMethod.GET)
-    public ModelAndView dump(Map<String, Object> model,
+    public ModelAndView home(Map<String, Object> model,
                              HttpServletRequest request) {
         model.put("_headerText", "Home");
         return new ModelAndView("message", model);
@@ -105,21 +105,21 @@ public class Views {
     }
 
     @RequestMapping(value="/app/manage", method = RequestMethod.POST)
-    public ModelAndView managed(@RequestParam Map<String, String> parameters,
-                                Map<String, Object> model,
-                                Principal principal) {
+    public ModelAndView manage(@RequestParam Map<String, String> parameters,
+                               Map<String, Object> model,
+                               Principal principal) {
         for (String key : parameters.keySet()) {
             try {
-                final Utils.RemovalKey removalKey = new Utils.RemovalKey(key);
+                final Utils.InputKey inputKey = new Utils.InputKey(key);
                 if ("true".equals(parameters.get(key))) {
-                    if (removalKey.isApproval())
-                        delegate.revokeApprovals(principal.getName(), removalKey.getClientId(), removalKey.getTag());
-                    else if (removalKey.isToken())
-                        delegate.removeToken(principal.getName(), removalKey.getTag(), true);
+                    if (inputKey.forApproval())
+                        delegate.revokeApprovals(principal.getName(), inputKey.getClientId(), inputKey.getTag());
+                    else if (inputKey.forToken())
+                        delegate.removeToken(principal.getName(), inputKey.getTag(), true);
                 }
             } catch (Exception e) {}
         }
-        // Reload same view
+        // Reload same view : same as a GET
         return manage(model,principal);
     }
 

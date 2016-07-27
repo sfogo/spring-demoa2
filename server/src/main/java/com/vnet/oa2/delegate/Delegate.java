@@ -144,7 +144,7 @@ public class Delegate {
      * Remove token from store
      * @param username user requesting the removal
      * @param tokenValue token value
-     * @param checkUser true for regular users, false when request by admin
+     * @param checkUser true for regular users, false when requested by admin
      * @throws Exception thrown when user (not admin) attempts to remove a token they do not 'own'.
      */
     public void removeToken(String username, String tokenValue, boolean checkUser) throws Exception {

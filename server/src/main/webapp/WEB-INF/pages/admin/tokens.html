@@ -18,7 +18,9 @@
             <td class="tdUP">{{ t.scope }}</td>
             <td class="tdUP">{{ (t.expires_in - (t.expires_in % 3600))/3600 }}h {{ (t.expires_in % 3600 - ((t.expires_in % 3600) % 60))/60 }}m {{ t.expires_in % 60 }}s</td>
             <td class="tdUP">
-                <a class="elm01" href="" ng-click="removeToken(t.access_token)">Remove</a>
+                <div ng-show="write==true">
+                    <a class="elm01" href="" ng-click="removeToken(t.access_token)">Remove</a>
+                </div>
             </td>
         </tr>
     </table>

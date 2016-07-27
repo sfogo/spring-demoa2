@@ -86,6 +86,7 @@
         $scope.approvals = null;
         $scope.error = null;
         $scope.wheel = false;
+        $scope.write = adminWriter;
 
         $scope.getApprovals = function() {
             $scope.wheel = true;
@@ -142,6 +143,7 @@
         $scope.tokens = null;
         $scope.error = null;
         $scope.wheel = false;
+        $scope.write = adminWriter;
 
         $scope.tokenPopup = function(t) {
             ModalService.showModal({

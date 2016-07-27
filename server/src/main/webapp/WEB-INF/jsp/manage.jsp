@@ -45,7 +45,7 @@
                 </tr>
                 <%
                 for (Approval approval : approvals) {
-                    Utils.RemovalKey key = new Utils.RemovalKey("approval", approval.getClientId(), approval.getScope());
+                    Utils.InputKey key = new Utils.InputKey("approval", approval.getClientId(), approval.getScope());
                 %>
                 <tr>
                     <td class="tdUP"><span><%= approval.getClientId() %></span></td>
@@ -81,7 +81,7 @@
                 </tr>
             <%
             for (OAuth2AccessToken token : tokens) {
-                Utils.RemovalKey key = new Utils.RemovalKey("token","foo",token.getValue());
+                Utils.InputKey key = new Utils.InputKey("token","foo",token.getValue());
             %>
                 <tr>
                     <td class="tdUP"><%= token.getAdditionalInformation().get("clientId") %></td>
