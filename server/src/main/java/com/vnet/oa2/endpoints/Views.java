@@ -115,7 +115,7 @@ public class Views {
                     if (removalKey.isApproval())
                         delegate.revokeApprovals(principal.getName(), removalKey.getClientId(), removalKey.getTag());
                     else if (removalKey.isToken())
-                        delegate.removeToken(principal.getName(), removalKey.getTag());
+                        delegate.removeToken(principal.getName(), removalKey.getTag(), true);
                 }
             } catch (Exception e) {}
         }

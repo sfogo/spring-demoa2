@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.ClientDetails;
 import org.springframework.security.oauth2.provider.approval.Approval;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -47,10 +48,9 @@ public class AdminData {
         delegate.revokeApprovals(username, clientId, scope);
     }
 
-    @RequestMapping(value="/admin/tokens", method = RequestMethod.DELETE)
-    public void removeToken(@RequestParam("user") String username,
-                            @RequestParam("client") String clientId,
-                            @RequestParam("token") String token) {
-        delegate.removeTokens(username, clientId, token);
+    @RequestMapping(value="/admin/tokens/{tokenValue}", method = RequestMethod.DELETE)
+    public void removeToken(@PathVariable String tokenValue) throws Exception {
+        // username not check when admin removes a token
+        delegate.removeToken("", tokenValue, false);
     }
 }

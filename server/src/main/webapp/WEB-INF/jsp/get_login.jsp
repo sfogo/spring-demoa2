@@ -36,13 +36,13 @@
 
             <% if (session.getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION) != null) { %>
             <tr>
-                <td class="base">&nbsp</td>
+                <td class="base">&nbsp;</td>
                 <td class="base"><span class="ex01">${SPRING_SECURITY_LAST_EXCEPTION.message}</span></td>
             </tr>
             <% } %>
 
             <tr align="center">
-                <td class="base">&nbsp</td>
+                <td class="base">&nbsp;</td>
                 <td><button class="button1" name="signin" type="submit"><span>Sign In</span></button></td>
             </tr>
 

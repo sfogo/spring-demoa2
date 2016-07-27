@@ -168,11 +168,11 @@
         };
 
         $scope.getTokens();
-        $scope.removeToken = function(u,c,t) {
+        $scope.removeToken = function(token) {
             $scope.wheel = true;
             var request = {
                 method : 'DELETE',
-                url : contextURL + '/admin/tokens?user=' + u + '&client=' + c + '&token=' + t,
+                url : contextURL + '/admin/tokens/' + token,
                 headers : {'Authorization' : 'Bearer ' + adminAccessToken}
             };
             $http(request).then(

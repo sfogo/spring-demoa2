@@ -141,34 +141,23 @@ public class Delegate {
     }
 
     /**
-     * Remove tokens
-     * @param username
-     * @param clientId
-     * @param token
-     */
-    public void removeTokens(String username, String clientId, String token) {
-        final Collection<OAuth2AccessToken> tokens = tokenStore.findTokensByClientIdAndUserName(clientId, username);
-        for (OAuth2AccessToken t : tokens) {
-            if (t.getValue().equals(token)) {
-                tokenStore.removeAccessToken(t);
-                logger.info("Removed Token " + t.getValue());
-            }
-        }
-    }
-
-    /**
      * Remove token from store
+     * @param username user requesting the removal
      * @param tokenValue token value
+     * @param checkUser true for regular users, false when request by admin
+     * @throws Exception thrown when user (not admin) attempts to remove a token they do not 'own'.
      */
-    public void removeToken(String username, String tokenValue) throws Exception {
-        final OAuth2Authentication auth2Authentication = tokenStore.readAuthentication(tokenValue);
-        if (username.equals(auth2Authentication.getName())) {
-            final OAuth2AccessToken token = tokenStore.readAccessToken(tokenValue);
-            tokenStore.removeAccessToken(token);
-        } else {
-            final String m = username + " not allowed to revoke " + auth2Authentication.getName() + "'s tokens.";
+    public void removeToken(String username, String tokenValue, boolean checkUser) throws Exception {
+        final OAuth2Authentication oAuth2Authentication = tokenStore.readAuthentication(tokenValue);
+
+        if (checkUser && !username.equals(oAuth2Authentication.getName())) {
+            final String m = username + " not allowed to revoke " + oAuth2Authentication.getName() + "'s tokens.";
             logger.error(m);
             throw new Exception(m);
         }
+
+        final OAuth2AccessToken token = tokenStore.readAccessToken(tokenValue);
+        logger.info("Removed Token " + tokenValue);
+        tokenStore.removeAccessToken(token);
     }
 }
