@@ -287,7 +287,7 @@
                 url : oa2BaseURL + '/oauth/token',
                 headers : {'Authorization' : 'Basic Y2xpZW50MDpQQDU1dzByZDA=',
                            'content-type' : 'application/x-www-form-urlencoded'},
-                data : 'grant_type=password&scope=ADMIN_READ ADMIN_WRITE&username='+$scope.username+'&password='+$scope.password
+                data : 'grant_type=password&scope=ADMIN_READ&username='+$scope.username+'&password='+$scope.password
             };
             $http(request).then(
                 function(response) {
