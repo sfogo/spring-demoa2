@@ -13,10 +13,11 @@ Server is packaged as a web archive (`war`) deployed and tested in [Tomcat](http
     - [Local Tomcat](#local-tomcat)
     - [Local Embedded Tomcat](#local-embedded-tomcat)
 - [Client](#client)
+- [Examples and screenshots](#examples)
 
 ## Server
 ### Overview
-Server was developed following the Spring OAuth2 [guide](http://projects.spring.io/spring-security-oauth/docs/oauth2.html) and combines both **Authorization Server** and **Resource Server** [OAuth roles](https://tools.ietf.org/html/rfc6749#section-1.1). It includes :
+Server was developed following the Spring OAuth2 [guide](http://projects.spring.io/spring-security-oauth/docs/oauth2.html) and combines both **Authorization Server** and **Resource Server** [OAuth roles](https://tools.ietf.org/html/rfc6749#section-1.1). It has the following features :
 * Customized user login and consent pages (JSP views)
 * A management page (JSP view) that enables regular users (`ROLE_USER`) to view tokens and what they have consented to clients. They can also revoke approvals and remove tokens they own. Administrators cannot access this page.
 * An [AngularJS](https://angularjs.org) based administration application that allows administrators (`ROLE_ADMIN`) to manage all approvals and tokens. When an administrator signs in, they are automatically [password-granted](https://tools.ietf.org/html/rfc6749#section-4.3) an admin token that allows them to access users, clients, consents (user approvals) and tokens as Resources. Admin token is kept in a cookie named `ADMIN_ACCESS_TOKEN`. Regular Administrator (`admin`) can only view while a super admin (named `root`) can delete any approval or token.
@@ -27,6 +28,7 @@ Server was developed following the Spring OAuth2 [guide](http://projects.spring.
   * User `admin` has authority `ROLE_ADMIN`, can access the admin application but cannot delete approvals and tokens (because their `ADMIN_ACCESS_TOKEN` granted upon login is requested with scope `ADMIN_READ` only).
   * User `root` has authority `ROLE_ADMIN`, can access the admin application and delete any approval or token (because their `ADMIN_ACCESS_TOKEN` granted upon login is requested with both scopes `ADMIN_READ` and `ADMIN_WRITE`).
   * Other users have authority `ROLE_USER`. They cannot access the administration application.
+* Configuration [classes](server/src/main/java/com/vnet/oa2/config) decide which [endpoints](server/src/main/java/com/vnet/oa2/config/ResourceServerConfig.java) are OAuth2 token controlled (Resource Server) and which [ones](server/src/main/java/com/vnet/oa2/config/HttpSecurityConfig.java) are subjected to regular http security. See Spring OAuth2 [guide](http://projects.spring.io/spring-security-oauth/docs/oauth2.html) for further details.
 
 
 ### Endpoints
@@ -66,12 +68,13 @@ Server was developed following the Spring OAuth2 [guide](http://projects.spring.
 * On the Heroku portal, you can view how the application gets started with the embedded Tomcat container :
   * `java $JAVA_OPTS -jar target/dependency/webapp-runner.jar $WEBAPP_RUNNER_OPTS --port $PORT target/demoa2-1.0.war`
 * Once the application is up and running, both http and https endpoints are available :
-  * `http://myAppName.herokuapp.com`
-  * `https://myAppName.herokuapp.com`
+  * `http://YourAppName.herokuapp.com`
+  * `https://YourAppName.herokuapp.com`
+  * My application name was `demoa2`.
 
 #### SSL Termination
 * Heroku load balancing **terminates SSL** and **all** requests (even when initiated at Heroku HTTPS endpoints) will reach your web application over HTTP (with appropriate `x-forwarded-*` headers though). This is fine as long as your application does not include **redirected** conversations that you want to start and continue over **https** all the way through.
-* If your application redirects to itself, [Webapp Runner 8](https://github.com/jsimone/webapp-runner) has the solution : its `--proxy-base-url` option tells your web application that incoming requests are being proxied and redirect URLs will consequently be properly constructed. Now, the second piece of **luck** is that Heroku commands will let you set webapp runner options. I issued the following for my application :
+* If your application redirects to itself, [Webapp Runner 8](https://github.com/jsimone/webapp-runner) has the solution : its `--proxy-base-url` option tells your web application that incoming requests are being proxied and redirect URLs will consequently be properly constructed. Now, the second piece of luck is that Heroku commands will let you set webapp runner options. I issued the following for my application :
 ```sh
     heroku config:set WEBAPP_RUNNER_OPTS="--proxy-base-url https://demoa2.herokuapp.com" --app demoa2
 ```
@@ -122,3 +125,13 @@ Server was developed following the Spring OAuth2 [guide](http://projects.spring.
 * There is no automated packaging and you can directly drop all the [files](client) in a web server. The only thing you may need to adapt (to your server deployment) is `oa2BaseURL` at the top of [app.js](client/app.js).
 * Application can play the role of any registered client (`client1` to `client10`). It has a setup phase that pulls the client list from the server (and presents them in a drop down list). The setup phase will prompt you for admin credentials in order to be able to pull the client list from the server. Past the setup phase, you play the Client role.
 * Application is purely client-side (AngularJS) but illustrates the OAuth2 [Authorization Code Grant](https://tools.ietf.org/html/rfc6749#section-4.1) flow where Authorization Code is acquired to be later exchanged for an access token. Please **note** that client side applications are more likely to use other grant methods ([Implicit](https://tools.ietf.org/html/rfc6749#section-4.2) and [Resource Owner Credentials](https://tools.ietf.org/html/rfc6749#section-4.3)) since **Authorized Code Grant** is better suited for confidential clients.
+
+## Examples
+### Authorization Code Grant flow
+* Point your browser to the following location :
+````
+https://demoa2.herokuapp.com/oauth/authorize?response_type=code&client_id=client7&redirect_uri=http://example.com
+```
+* This uses Heroku free tier whose applications go down after 30 minutes of inactivity and restart upon first hit. You can use this [test page](https://demoa2.herokuapp.com/test) to check whether the application is up and running. If it is not, you will get this error page ![01-not-ready](https://cloud.githubusercontent.com/assets/13286393/17226997/0d87253e-54c1-11e6-83b8-48fa25f374d4.png). When it is, you should see this ![02-test](https://cloud.githubusercontent.com/assets/13286393/17226999/0d88ad00-54c1-11e6-8ade-b1535c32a2a5.png).
+
+### Resource Owner Grant
