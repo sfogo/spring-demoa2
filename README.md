@@ -71,10 +71,13 @@ Server was developed following the Spring OAuth2 [guide](http://projects.spring.
   * **CAREFUL** : webapp runner version 7 does **not** have the `--proxy-base-url` option. If you are stuck with webapp runner 7, I unfortunately do not have a solution available despite reading tons of Spring literature about valves, embedded containers and forwarded headers (some [here](http://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-developing-web-applications.html#boot-features-embedded-container) and a bit more over [there](http://docs.spring.io/spring-boot/docs/current/reference/html/howto-embedded-servlet-containers.html)).
 
 ### Local Tomcat
-* Web application is built with `mvn package` and gets deployed as a sub-directory of `$TOMCAT_HOME/webapps`. Tomcat deployment is not included in my pom.xml and deployment is manually handled with a deploy [script](server/tomcat-deploy.sh). Without changing Tomcat defaults, application is available at `http://localhost:8080/demoa2` (the script renames just `demoa2.war` the archive dropped in `$TOMCAT_HOME/webapps`). This also creates a context path mismatch in static resources and that is why the deployment script adds the `demoa2` piece wherever required. There is no issue for JSPs whose context path is dynamically set using `${pageContext.request.contextPath}` variable.
-* `WEB-INF` folder does not include any `web.xml` file. In [pom.xml](server/pom.xml),`maven-war-plugin` is told not to fail on missing `web.xml`.
-* **CAREFUL** : there are a few important considerations for Spring Boot to be able to create a deployable war (as opposed to just running along with `mvn spring-boot:run`). Spring documentation explains it very well [here](http://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#howto-create-a-deployable-war-file) : it's all about `spring-boot-starter-tomcat` artifact.
-* If Tomcat is used behind a front-end proxy server, it has the same issue as webapp runner : it does not know whether or not are being proxied. One way to tell Tomcat incoming requests are being proxied is to change the `Connector` settings in `$TOMCAT_HOME/conf/server.xml`.
+Web application is built with `mvn package` and gets deployed as a sub-directory of `$TOMCAT_HOME/webapps`. Tomcat deployment is not included in my pom.xml and deployment is manually handled with a deploy [script](server/tomcat-deploy.sh). Without changing Tomcat defaults, application is available at `http://localhost:8080/demoa2` (the script renames just `demoa2.war` the archive dropped in `$TOMCAT_HOME/webapps`). This also creates a context path mismatch in static resources and that is why the deployment script adds the `demoa2` piece wherever required. There is no issue for JSPs whose context path is dynamically set using `${pageContext.request.contextPath}` variable.
+
+`WEB-INF` folder does not include any `web.xml` file. In [pom.xml](server/pom.xml),`maven-war-plugin` is told not to fail on missing `web.xml`.
+
+**CAREFUL** : there are a few important considerations for Spring Boot to be able to create a deployable war (as opposed to just running along with `mvn spring-boot:run`). Spring documentation explains it very well [here](http://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#howto-create-a-deployable-war-file) : it's all about `spring-boot-starter-tomcat` artifact.
+
+If Tomcat is used behind a front-end proxy server, it has the same issue as webapp runner : it does not know whether requests are being proxied. One way to tell Tomcat incoming requests are being proxied is to change the `Connector` settings in `$TOMCAT_HOME/conf/server.xml`.
 ```xml
     <!-- Default settings -->
     <Connector port="8080" protocol="HTTP/1.1"
@@ -88,6 +91,13 @@ Server was developed following the Spring OAuth2 [guide](http://projects.spring.
                redirectPort="8443"
                proxyName="localhost" proxyPort="443" scheme="https" />
 ```
+
 If you take a peek at webapp runner [code](https://github.com/jsimone/webapp-runner/blob/master/src/main/java/webapp/runner/launch/Main.java), you can see it programmatically does the equivalent of the `Connector` settings when processing its `--proxy-base-url` option.
 
 ### Local Embedded Tomcat
+* tbd1 a1
+* tbd2 a2
+```shell
+ls -lsa
+```
+* tbd3 a3
