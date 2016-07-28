@@ -64,8 +64,8 @@ Server was developed following the Spring OAuth2 [guide](http://projects.spring.
 #### SSL Termination
 * Heroku load balancing **terminates SSL** and **all** requests (even when initiated from Heroku HTTPS endpoints) will reach your web application over HTTP (with appropriate `x-forwarded-*` headers though). This is fine as long as your application does not include **redirect**ed conversations that you want to start and continue over **https** all the way through.
 * If your application redirects to itself, [Webapp Runner 8](https://github.com/jsimone/webapp-runner) has the solution : its `--proxy-base-url` option tells your web application that incoming requests are being proxied and redirect URLs will consequently be properly constructed. Now, the second piece of **luck** is that Heroku commands will let you set webapp runner options. I issued the following for my application :
-```
-heroku config:set WEBAPP_RUNNER_OPTS="--proxy-base-url https://demoa2.herokuapp.com" --app demoa2
+```sh
+    heroku config:set WEBAPP_RUNNER_OPTS="--proxy-base-url https://demoa2.herokuapp.com" --app demoa2
 ```
 * Conversely, http invocations of heroku app endpoints will be automatically redirected to their https counterparts.
 * **CAREFUL** : webapp runner version 7 does **not** have the `--proxy-base-url` option. If you are stuck with webapp runner 7, I unfortunately do not have a solution available despite reading tons of Spring literature about valves, embedded containers and forwarded headers (some [here](http://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-developing-web-applications.html#boot-features-embedded-container) and a bit more over [there](http://docs.spring.io/spring-boot/docs/current/reference/html/howto-embedded-servlet-containers.html)).
@@ -98,14 +98,14 @@ heroku config:set WEBAPP_RUNNER_OPTS="--proxy-base-url https://demoa2.herokuapp.
 * Configure your `pom.xml` so that it downloads Webapp Runner (Very well explained [here](https://devcenter.heroku.com/articles/java-webapp-runner#configure-maven-to-download-webapp-runner) in Heroku documentation but you can of course do this without having anything to do with Heroku).
 * Package the application with `mvn package`.
 * You can run the archive with :
-```shell
-java -jar target/dependency/webapp-runner.jar --port 8080 target/demoa2-1.0.war
+```sh
+    java -jar target/dependency/webapp-runner.jar --port 8080 target/demoa2-1.0.war
 ```
 * You can run the exploded war :
-```shell
-java -jar target/dependency/webapp-runner.jar --port 8080 target/demoa2-1.0
+```sh
+    java -jar target/dependency/webapp-runner.jar --port 8080 target/demoa2-1.0
 ```
 * It of course has the same proxying issues as with Heroku. If you for example run Nginx at `https://localhost`, you can proxy accordingly with :
-```shell
-java -jar target/dependency/webapp-runner.jar --proxy-base-url https://localhost target/demoa2-1.0
+```sh
+    java -jar target/dependency/webapp-runner.jar --proxy-base-url https://localhost target/demoa2-1.0
 ```
