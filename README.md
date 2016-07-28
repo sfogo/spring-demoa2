@@ -132,10 +132,11 @@ Server was developed following the Spring OAuth2 [guide](http://projects.spring.
 ### Authorization Code Grant flow (Heroku)
 * This uses Heroku free tier whose applications go down after 30 minutes of inactivity and restart upon first hit. You can use this [test page](https://demoa2.herokuapp.com/test) to check whether the application is up and running. If it is not, you will get this error page :
   * <img src="https://cloud.githubusercontent.com/assets/13286393/17226997/0d87253e-54c1-11e6-83b8-48fa25f374d4.png"
-     border="0" width="60%" />
+     border="0" width="70%" />
 
 * When it is, you should see this :
-![02-test](https://cloud.githubusercontent.com/assets/13286393/17226999/0d88ad00-54c1-11e6-8ade-b1535c32a2a5.png).
+  * <img src="https://cloud.githubusercontent.com/assets/13286393/17226999/0d88ad00-54c1-11e6-8ade-b1535c32a2a5.png"
+     border="0" width="70%" />
 
 * Point your browser to the following location :
 ```
@@ -143,13 +144,16 @@ https://demoa2.herokuapp.com/oauth/authorize?response_type=code&client_id=client
 ```
 
 * Enter User credentials :
-![03-login](https://cloud.githubusercontent.com/assets/13286393/17226998/0d877034-54c1-11e6-8943-4e7c58c7831a.png)
+  * <img src="https://cloud.githubusercontent.com/assets/13286393/17226998/0d877034-54c1-11e6-8943-4e7c58c7831a.png"
+     border="0" width="70%" />
 
 * Consent access to client :
-![04-consent](https://cloud.githubusercontent.com/assets/13286393/17227000/0d8d0b48-54c1-11e6-8bdb-39af5710b8e8.png)
+  * <img src="https://cloud.githubusercontent.com/assets/13286393/17227000/0d8d0b48-54c1-11e6-8bdb-39af5710b8e8.png"
+     border="0" width="70%" />
 
 * Final redirection with authorization code :
-![05-code](https://cloud.githubusercontent.com/assets/13286393/17226996/0d7f827a-54c1-11e6-8719-722744defd51.png)
+  * <img src="https://cloud.githubusercontent.com/assets/13286393/17226996/0d7f827a-54c1-11e6-8719-722744defd51.png"
+     border="0" width="70%" />
 
 * Exchange code for token :
 ```
@@ -180,7 +184,8 @@ curl -H "Authorization: Bearer 77bf32e1-11eb-4bd6-82fc-4d0ca124f896" https://dem
 ```
 
 * Point you browser to `https://demoa2.herokuapp.com/app/manage`.
-![06-manage](https://cloud.githubusercontent.com/assets/13286393/17227975/e068daca-54c5-11e6-9034-f286f83c3b07.png)
+  * <img src="https://cloud.githubusercontent.com/assets/13286393/17227975/e068daca-54c5-11e6-9034-f286f83c3b07.png"
+     border="0" width="70%" />
 
 ### Resource Owner Grant
 * Get Token
@@ -194,5 +199,6 @@ curl -u client1:P@55w0rd1 https://demoa2.herokuapp.com/oauth/token \
 ```
 
 * Point you browser to `https://demoa2.herokuapp.com/app/manage`.
-![07-manage](https://cloud.githubusercontent.com/assets/13286393/17228651/b8703dc6-54c8-11e6-8db3-b1596c320df7.png)
+  * <img src="https://cloud.githubusercontent.com/assets/13286393/17228651/b8703dc6-54c8-11e6-8db3-b1596c320df7.png"
+     border="0" width="70%" />
 
