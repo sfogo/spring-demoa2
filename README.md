@@ -131,30 +131,25 @@ Server was developed following the Spring OAuth2 [guide](http://projects.spring.
 
 ## Examples
 ### Authorization Code Grant flow (Heroku)
-* This uses Heroku free tier whose applications go down after 30 minutes of inactivity and restart upon first hit. You can use this [test page](https://demoa2.herokuapp.com/test) to check whether the application is up and running. If it is not, you will get this error page :
-  * <img src="https://cloud.githubusercontent.com/assets/13286393/17226997/0d87253e-54c1-11e6-83b8-48fa25f374d4.png"
-     border="0" width="70%" />
+* This uses Heroku free tier whose applications go down after 30 minutes of inactivity and restart upon first hit. You can use this [test page](https://demoa2.herokuapp.com/test) to check whether the application is up and running. If it is not, you will get this error page :  
+<img src="https://cloud.githubusercontent.com/assets/13286393/17226997/0d87253e-54c1-11e6-83b8-48fa25f374d4.png" border="0" width="70%" />
 
-* When it is, you should see this :
-  * <img src="https://cloud.githubusercontent.com/assets/13286393/17226999/0d88ad00-54c1-11e6-8ade-b1535c32a2a5.png"
-     border="0" width="70%" />
+* When it is, you should see this :  
+<img src="https://cloud.githubusercontent.com/assets/13286393/17226999/0d88ad00-54c1-11e6-8ade-b1535c32a2a5.png" border="0" width="70%" />
 
 * Point your browser to the following location :
 ```
 https://demoa2.herokuapp.com/oauth/authorize?response_type=code&client_id=client7&redirect_uri=http://example.com
 ```
 
-* Enter User credentials :
-  * <img src="https://cloud.githubusercontent.com/assets/13286393/17226998/0d877034-54c1-11e6-8943-4e7c58c7831a.png"
-     border="0" width="70%" />
+* Enter User credentials :  
+<img src="https://cloud.githubusercontent.com/assets/13286393/17226998/0d877034-54c1-11e6-8943-4e7c58c7831a.png" border="0" width="70%" />
 
-* Consent access to client :
-  * <img src="https://cloud.githubusercontent.com/assets/13286393/17227000/0d8d0b48-54c1-11e6-8bdb-39af5710b8e8.png"
-     border="0" width="70%" />
+* Consent access to client :  
+<img src="https://cloud.githubusercontent.com/assets/13286393/17227000/0d8d0b48-54c1-11e6-8bdb-39af5710b8e8.png" border="0" width="70%" />
 
-* Final redirection with authorization code :
-  * <img src="https://cloud.githubusercontent.com/assets/13286393/17226996/0d7f827a-54c1-11e6-8719-722744defd51.png"
-     border="0" width="70%" />
+* Final redirection with authorization code :  
+<img src="https://cloud.githubusercontent.com/assets/13286393/17226996/0d7f827a-54c1-11e6-8719-722744defd51.png" border="0" width="70%" />
 
 * Exchange code for token :
 ```
@@ -199,7 +194,7 @@ curl -u client1:P@55w0rd1 https://demoa2.herokuapp.com/oauth/token \
 {"access_token":"41be7af3-22b7-47b9-aff4-ee5ec04cf0e4","token_type":"bearer","refresh_token":"be919705-5ad9-4fb1-b717-4a8208df5101","expires_in":43199,"scope":"A"}
 ```
 
-* Point your browser to `https://demoa2.herokuapp.com/app/manage`.
+* Point your browser to `https://demoa2.herokuapp.com/app/manage`.  
 <img src="https://cloud.githubusercontent.com/assets/13286393/17228651/b8703dc6-54c8-11e6-8db3-b1596c320df7.png" border="0" width="80%" />
 
 ### Administration Application
@@ -212,10 +207,10 @@ curl -u client1:P@55w0rd1 https://demoa2.herokuapp.com/oauth/token \
 <img src="https://cloud.githubusercontent.com/assets/13286393/17230445/16b3cca6-54d1-11e6-951b-c617dcf5e965.png" border="0" width="70%" />
 * Approvals  
 <img src="https://cloud.githubusercontent.com/assets/13286393/17230446/16b41c4c-54d1-11e6-961c-95c40b93955a.png" border="0" width="70%" />
-* Tokens
+* Tokens  
 <img src="https://cloud.githubusercontent.com/assets/13286393/17230447/16b90a2c-54d1-11e6-8305-58113a1c8379.png" border="0" width="70%" />
-* Click on a token value to see its details
+* Click on a token value to see its details  
 <img src="https://cloud.githubusercontent.com/assets/13286393/17230442/16abcc04-54d1-11e6-95d1-299df79f783f.png" border="0" width="70%" />
-* When you sign-in with super admin credentials, you can delete approvals and tokens.
+* When you sign-in with super admin credentials, you can delete approvals and tokens.  
 <img src="https://cloud.githubusercontent.com/assets/13286393/17230443/16af7df4-54d1-11e6-8289-104a359d2cb8.png" border="0" width="70%" />
 
