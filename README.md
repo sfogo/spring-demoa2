@@ -16,6 +16,7 @@ Server is packaged as a web archive (`war`) deployed and tested in [Tomcat](http
 - [Examples and screenshots](#examples)
   - [Authorization Code Grant - Heroku](#authorization-code-grant-flow-heroku)
   - [Resource Owner Grant](#resource-owner-grant)
+  - [Administration Application](#administration-application)
 
 ## Server
 ### Overview
@@ -183,7 +184,7 @@ curl -H "Authorization: Bearer 77bf32e1-11eb-4bd6-82fc-4d0ca124f896" https://dem
 {"error":"insufficient_scope","error_description":"Insufficient scope for this resource","scope":"B"}
 ```
 
-* Point you browser to `https://demoa2.herokuapp.com/app/manage`.
+* Point your browser to `https://demoa2.herokuapp.com/app/manage`.
   * <img src="https://cloud.githubusercontent.com/assets/13286393/17227975/e068daca-54c5-11e6-9034-f286f83c3b07.png"
      border="0" width="80%" />
 
@@ -198,7 +199,10 @@ curl -u client1:P@55w0rd1 https://demoa2.herokuapp.com/oauth/token \
 {"access_token":"41be7af3-22b7-47b9-aff4-ee5ec04cf0e4","token_type":"bearer","refresh_token":"be919705-5ad9-4fb1-b717-4a8208df5101","expires_in":43199,"scope":"A"}
 ```
 
-* Point you browser to `https://demoa2.herokuapp.com/app/manage`.
+* Point your browser to `https://demoa2.herokuapp.com/app/manage`.
   * <img src="https://cloud.githubusercontent.com/assets/13286393/17228651/b8703dc6-54c8-11e6-8db3-b1596c320df7.png"
      border="0" width="80%" />
 
+### Administration Application
+
+* Point your browser to `https://demoa2.herokuapp.com/app/admin` and sign-in with admin credentials.
