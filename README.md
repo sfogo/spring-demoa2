@@ -2,7 +2,7 @@
 This is a simple OAuth2 demo application whose server uses [Spring Boot](http://projects.spring.io/spring-boot),
 [Spring Security OAuth2](http://projects.spring.io/spring-security-oauth) as well as [Spring MVC](http://docs.spring.io/spring/docs/current/spring-framework-reference/html/mvc.html). You may invoke the server pretty much any way you like (browser location, curl, postman) but you can also drop this [client](/client) application in a web server.
 
-Server has been deployed and tested in the following conditions :
+Server is packaged as a web archive (`war`). It has been deployed and tested in the following conditions :
 * Embedded Tomcat in Heroku
 * Local HTTP Tomcat
 * Local HTTP Embedded Tomcat ([Webapp Runner](https://github.com/jsimone/webapp-runner))
@@ -26,15 +26,17 @@ Server was developed following the Spring OAuth2 [guide](http://projects.spring.
 
 
 ### Endpoints
-|Method|Endpoint|Role|Comment|
+|Method|Endpoint|Authentication Required|Comment|
 |---|---|---|---|
-|Spring defaults|`/oauth/authorize`<br>`/oauth/token`<br>`/oauth/check_token`|Any|Spring defaults|
-|POST|`/login`<br>`/logout`|Any|Spring defaults|
-|GET|`/oauth/confirm_access`|Any|Custom user consent page|
-|GET|`/get_login`|Any|Custom login page|
-|GET|`/app/admin`|`ROLE_ADMIN`|Access to administration application|
-|GET|`/app/manage`|`ROLE_USER`|View approvals and tokens|
-|POST|`/app/manage`|`ROLE_USER`|Submit revokes and token removals|
+|Spring defaults|`/oauth/authorize`<br>`/oauth/token`<br>`/oauth/check_token`|Yes|Spring defaults|
+||`/oauth/error`|No|Custom OAuth Error view|
+|POST|`/login`|No|Spring defaults|
+|POST|`/logout`|Yes|Spring defaults|
+|GET|`/oauth/confirm_access`|Yes|Custom user consent page|
+|GET|`/get_login`|No|Custom login page|
+|GET|`/app/admin`|Yes with `ROLE_ADMIN`|Access to administration application|
+|GET|`/app/manage`|Yes with `ROLE_USER`|View approvals and tokens|
+|POST|`/app/manage`|Yes with `ROLE_USER`|Submit revokes and token removals|
 
 ### Resource Endpoints
 |Method|Endpoint|Required Role|Required Scope|Comment|
@@ -49,3 +51,24 @@ Server was developed following the Spring OAuth2 [guide](http://projects.spring.
 |GET|`/things/A/{id}`|`ROLE_USER`|`A`|A Things|
 |GET|`/things/B/{id}`|`ROLE_USER`|`B`|B Things|
 |GET|`/things/C/{id}`|`ROLE_USER`|`C`|C Things|
+
+## Deployment
+### Heroku
+* Sign up for Heroku free tier in case you do not yet have an account. Create an application in Heroku : either on the Heroku portal or with the [Heroku Command Line](https://devcenter.heroku.com/categories/command-line) tools (extremely convenient). [Here](https://devcenter.heroku.com/articles/creating-apps) is how to create an application from the command line : you can name it yourself or let Heroku name it nicely for you. Either way, the application name must be added to the configuration of the Heroku mvn plugin section.
+* Add the Heroku mvn [plugin](https://devcenter.heroku.com/articles/deploying-java-applications-with-the-heroku-maven-plugin) to your [pom.xml](server/pom.xml) and configure it with your application name. Make sure the pom.xml packaging is `war`.
+* Deploy it with :
+  * `$ mvn heroku:deploy-war`
+* On the Heroku portal, you can view how it gets started inside the embedded Tomcat container :
+  * `java $JAVA_OPTS -jar target/dependency/webapp-runner.jar $WEBAPP_RUNNER_OPTS --port $PORT target/demoa2-1.0.war`
+* Once the application is up and running, both http and https endpoints are available :
+  * `http://myAppName.herokuapp.com`
+  * `https://myAppName.herokuapp.com`
+* **Important HTTPS Note**
+  * Heroku load balancing **terminates SSL** and **all** requests (even when initiated from Heroku HTTPS endpoints) will reach your web application over HTTP (with appropriate `x-forwarded-*` headers though). This is fine as long as your application does not include **redirect**ed conversations that you want to start and continue over **https** all the way through.
+  * If your application does redirect to itself, [Webapp Runner 8](https://github.com/jsimone/webapp-runner) has the solution : its `--proxy-base-url` option tells your application that incoming requests are being proxied and redirect URLs are consequently constructed accordingly. Now, the second piece of **luck** is that Heroku commands will let you set the webapp runner options. I issued the following for my application :
+  * `heroku config:set WEBAPP_RUNNER_OPTS="--proxy-base-url https://demoa2.herokuapp.com" --app demoa2`
+  * Conversely, http invocations of heroku app endpoints will be automatically redirected to their https counterparts.
+  * **CAREFUL** : webapp runner version 7 does **not** have the `--proxy-base-url`. If you are stuck with webapp runner 7, I unfortunately do not have a solution available despite reading tons of Spring literature about embedded containers and forwarded headers (some [here](http://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-developing-web-applications.html#boot-features-embedded-container) and a bit more over [there](http://docs.spring.io/spring-boot/docs/current/reference/html/howto-embedded-servlet-containers.html)).
+
+### Local Tomcat
+### Local Embedded Tomcat
