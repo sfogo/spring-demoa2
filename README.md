@@ -200,36 +200,28 @@ curl -u client1:P@55w0rd1 https://demoa2.herokuapp.com/oauth/token \
 ```
 
 * Point your browser to `https://demoa2.herokuapp.com/app/manage`.
-  * <img src="https://cloud.githubusercontent.com/assets/13286393/17228651/b8703dc6-54c8-11e6-8db3-b1596c320df7.png"
-     border="0" width="80%" />
+<img src="https://cloud.githubusercontent.com/assets/13286393/17228651/b8703dc6-54c8-11e6-8db3-b1596c320df7.png" border="0" width="80%" />
 
 ### Administration Application
 
 * Point your browser to `https://demoa2.herokuapp.com/app/admin` and sign-in with admin credentials. Welcome page :
-  * <img src="https://cloud.githubusercontent.com/assets/13286393/17230448/16c39c12-54d1-11e6-8de3-1c013c19b1b6.png"
-     border="0" width="70%" />
+<img src="https://cloud.githubusercontent.com/assets/13286393/17230448/16c39c12-54d1-11e6-8de3-1c013c19b1b6.png" border="0" width="70%" />
 
 * Client List
-  * <img src="https://cloud.githubusercontent.com/assets/13286393/17230444/16b31e3c-54d1-11e6-9666-3441adb47da5.png"
-     border="0" width="70%" />
+<img src="https://cloud.githubusercontent.com/assets/13286393/17230444/16b31e3c-54d1-11e6-9666-3441adb47da5.png" border="0" width="70%" />
 
 * User List
-  * <img src="https://cloud.githubusercontent.com/assets/13286393/17230445/16b3cca6-54d1-11e6-951b-c617dcf5e965.png"
-     border="0" width="70%" />
+<img src="https://cloud.githubusercontent.com/assets/13286393/17230445/16b3cca6-54d1-11e6-951b-c617dcf5e965.png" border="0" width="70%" />
 
 * Approvals
-  * <img src="https://cloud.githubusercontent.com/assets/13286393/17230446/16b41c4c-54d1-11e6-961c-95c40b93955a.png"
-     border="0" width="70%" />
+<img src="https://cloud.githubusercontent.com/assets/13286393/17230446/16b41c4c-54d1-11e6-961c-95c40b93955a.png" border="0" width="70%" />
 
 * Tokens
-  * <img src="https://cloud.githubusercontent.com/assets/13286393/17230447/16b90a2c-54d1-11e6-8305-58113a1c8379.png"
-     border="0" width="70%" />
+<img src="https://cloud.githubusercontent.com/assets/13286393/17230447/16b90a2c-54d1-11e6-8305-58113a1c8379.png" border="0" width="70%" />
 
 * Click on a token value to see its details
-<img src="https://cloud.githubusercontent.com/assets/13286393/17230442/16abcc04-54d1-11e6-95d1-299df79f783f.png"
-     border="0" width="70%" />
+<img src="https://cloud.githubusercontent.com/assets/13286393/17230442/16abcc04-54d1-11e6-95d1-299df79f783f.png" border="0" width="70%" />
 
 * When you sign-in with super admin credentials, you can delete approvals and tokens.
-  * <img src="https://cloud.githubusercontent.com/assets/13286393/17230443/16af7df4-54d1-11e6-8289-104a359d2cb8.png"
-     border="0" width="70%" />
+<img src="https://cloud.githubusercontent.com/assets/13286393/17230443/16af7df4-54d1-11e6-8289-104a359d2cb8.png" border="0" width="70%" />
 
