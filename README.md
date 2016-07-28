@@ -205,4 +205,31 @@ curl -u client1:P@55w0rd1 https://demoa2.herokuapp.com/oauth/token \
 
 ### Administration Application
 
-* Point your browser to `https://demoa2.herokuapp.com/app/admin` and sign-in with admin credentials.
+* Point your browser to `https://demoa2.herokuapp.com/app/admin` and sign-in with admin credentials. Welcome page :
+  * <img src="https://cloud.githubusercontent.com/assets/13286393/17230448/16c39c12-54d1-11e6-8de3-1c013c19b1b6.png"
+     border="0" width="70%" />
+
+* Client List
+  * <img src="https://cloud.githubusercontent.com/assets/13286393/17230444/16b31e3c-54d1-11e6-9666-3441adb47da5.png"
+     border="0" width="70%" />
+
+* User List
+  * <img src="https://cloud.githubusercontent.com/assets/13286393/17230445/16b3cca6-54d1-11e6-951b-c617dcf5e965.png"
+     border="0" width="70%" />
+
+* Approvals
+  * <img src="https://cloud.githubusercontent.com/assets/13286393/17230446/16b41c4c-54d1-11e6-961c-95c40b93955a.png"
+     border="0" width="70%" />
+
+* Tokens
+  * <img src="https://cloud.githubusercontent.com/assets/13286393/17230447/16b90a2c-54d1-11e6-8305-58113a1c8379.png"
+     border="0" width="70%" />
+
+* Click on a token value to see its details
+  * <img src="https://cloud.githubusercontent.com/assets/13286393/17230447/16b90a2c-54d1-11e6-8305-58113a1c8379.png"
+     border="0" width="70%" />
+
+* When you sign-in with super admin credentials, you can delete approvals and tokens.
+  * <img src="https://cloud.githubusercontent.com/assets/13286393/17230443/16af7df4-54d1-11e6-8289-104a359d2cb8.png"
+     border="0" width="70%" />
+
