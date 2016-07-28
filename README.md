@@ -165,7 +165,7 @@ curl -u client7:P@55w0rd7 https://demoa2.herokuapp.com/oauth/token \
  "expires_in":43199,
  "scope":"A C"}
 ```
-* Get User Information
+* Get User Information (_Response manually indented_).
 ```
 curl -H "Authorization: Bearer 77bf32e1-11eb-4bd6-82fc-4d0ca124f896" \
     https://demoa2.herokuapp.com/user
@@ -225,7 +225,6 @@ curl -H "Authorization: Bearer 77bf32e1-11eb-4bd6-82fc-4d0ca124f896" \
  "id":"123",
  "class":"com.vnet.oa2.endpoints.Things"}
 ```
-_*Note*_ : response manually indented.
 
 * Getting a resource that requires having scope B is denied because user only consented to scopes A and C.
 ```
