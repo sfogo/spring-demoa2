@@ -185,7 +185,7 @@ curl -H "Authorization: Bearer 77bf32e1-11eb-4bd6-82fc-4d0ca124f896" https://dem
 
 * Point you browser to `https://demoa2.herokuapp.com/app/manage`.
   * <img src="https://cloud.githubusercontent.com/assets/13286393/17227975/e068daca-54c5-11e6-9034-f286f83c3b07.png"
-     border="0" width="70%" />
+     border="0" width="80%" />
 
 ### Resource Owner Grant
 * Get Token
@@ -200,5 +200,5 @@ curl -u client1:P@55w0rd1 https://demoa2.herokuapp.com/oauth/token \
 
 * Point you browser to `https://demoa2.herokuapp.com/app/manage`.
   * <img src="https://cloud.githubusercontent.com/assets/13286393/17228651/b8703dc6-54c8-11e6-8db3-b1596c320df7.png"
-     border="0" width="70%" />
+     border="0" width="80%" />
 
