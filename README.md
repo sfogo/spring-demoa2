@@ -134,7 +134,7 @@ Server was developed following the Spring OAuth2 [guide](http://projects.spring.
 ![01-not-ready](https://cloud.githubusercontent.com/assets/13286393/17226997/0d87253e-54c1-11e6-83b8-48fa25f374d4.png).
 
 <img src="https://cloud.githubusercontent.com/assets/13286393/17226997/0d87253e-54c1-11e6-83b8-48fa25f374d4.png"
-     border="0" style="width:60%;height:60%;" />
+     border="0" width="400" />
 
 * When it is, you should see this :
 ![02-test](https://cloud.githubusercontent.com/assets/13286393/17226999/0d88ad00-54c1-11e6-8ade-b1535c32a2a5.png).
