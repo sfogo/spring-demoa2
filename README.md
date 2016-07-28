@@ -226,7 +226,7 @@ curl -u client1:P@55w0rd1 https://demoa2.herokuapp.com/oauth/token \
      border="0" width="70%" />
 
 * Click on a token value to see its details
-  * <img src="https://cloud.githubusercontent.com/assets/13286393/17230447/16b90a2c-54d1-11e6-8305-58113a1c8379.png"
+  * <img src="https://cloud.githubusercontent.com/assets/13286393/17230442/16abcc04-54d1-11e6-95d1-299df79f783f.png"
      border="0" width="70%" />
 
 * When you sign-in with super admin credentials, you can delete approvals and tokens.
