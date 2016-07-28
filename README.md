@@ -3,9 +3,9 @@ This is a simple OAuth2 demo application whose server uses [Spring Boot](http://
 [Spring Security OAuth2](http://projects.spring.io/spring-security-oauth) as well as [Spring MVC](http://docs.spring.io/spring/docs/current/spring-framework-reference/html/mvc.html). You may invoke the server pretty much any way you like (browser location, curl, postman) but you can also drop this [client](/client) application in a web server.
 
 Server is packaged as a web archive (`war`). It has been deployed and tested in the following conditions :
-* Embedded Tomcat in Heroku
-* Local Tomcat
-* Local Embedded Tomcat ([Webapp Runner](https://github.com/jsimone/webapp-runner))
+* Embedded Tomcat in [Heroku](#heroku)
+* Local [Tomcat](#local-tomcat)
+* Local [Embedded Tomcat](#local-embedded-tomcat) (with [Webapp Runner](https://github.com/jsimone/webapp-runner))
 
 ## Server
 ### Overview
@@ -62,7 +62,7 @@ Server was developed following the Spring OAuth2 [guide](http://projects.spring.
   * `https://myAppName.herokuapp.com`
 
 #### SSL Termination
-* Heroku load balancing **terminates SSL** and **all** requests (even when initiated from Heroku HTTPS endpoints) will reach your web application over HTTP (with appropriate `x-forwarded-*` headers though). This is fine as long as your application does not include **redirect**ed conversations that you want to start and continue over **https** all the way through.
+* Heroku load balancing **terminates SSL** and **all** requests (even when initiated at Heroku HTTPS endpoints) will reach your web application over HTTP (with appropriate `x-forwarded-*` headers though). This is fine as long as your application does not include **redirected** conversations that you want to start and continue over **https** all the way through.
 * If your application redirects to itself, [Webapp Runner 8](https://github.com/jsimone/webapp-runner) has the solution : its `--proxy-base-url` option tells your web application that incoming requests are being proxied and redirect URLs will consequently be properly constructed. Now, the second piece of **luck** is that Heroku commands will let you set webapp runner options. I issued the following for my application :
 ```sh
     heroku config:set WEBAPP_RUNNER_OPTS="--proxy-base-url https://demoa2.herokuapp.com" --app demoa2
@@ -95,17 +95,17 @@ Server was developed following the Spring OAuth2 [guide](http://projects.spring.
 * If you take a peek at webapp runner [code](https://github.com/jsimone/webapp-runner/blob/master/src/main/java/webapp/runner/launch/Main.java), you can see it programmatically does the equivalent of the `Connector` settings when processing its `--proxy-base-url` option.
 
 ### Local Embedded Tomcat
-* Configure your `pom.xml` so that it downloads Webapp Runner (Very well explained [here](https://devcenter.heroku.com/articles/java-webapp-runner#configure-maven-to-download-webapp-runner) in Heroku documentation but you can of course do this without having anything to do with Heroku).
-* Package the application with `mvn package`.
-* You can run the archive with :
+* Configure your `pom.xml` so that it downloads Webapp Runner (*Very well explained [here](https://devcenter.heroku.com/articles/java-webapp-runner#configure-maven-to-download-webapp-runner) in Heroku documentation but you can of course do this without having anything to do with Heroku*).
+* Package the application with `mvn package`. Run the archive with :
 ```sh
     java -jar target/dependency/webapp-runner.jar --port 8080 target/demoa2-1.0.war
 ```
-* You can run the exploded war :
+* You can also run the exploded war :
 ```sh
     java -jar target/dependency/webapp-runner.jar --port 8080 target/demoa2-1.0
 ```
-* It of course has the same proxying issues as with Heroku. If you for example run Nginx at `https://localhost`, you can proxy accordingly with :
+* It of course has the same proxying issues as with [Heroku](#ssl-termination). If you for example run Nginx at `https://localhost`, you can proxy accordingly with :
 ```sh
     java -jar target/dependency/webapp-runner.jar --proxy-base-url https://localhost target/demoa2-1.0
 ```
+* `--port` is optional. Default is `8080`.
