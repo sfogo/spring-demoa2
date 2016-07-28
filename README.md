@@ -4,10 +4,8 @@ This is a simple OAuth2 demo application whose server uses [Spring Boot](http://
 
 Server is packaged as a web archive (`war`). It has been deployed and tested in the following conditions :
 * Embedded Tomcat in Heroku
-* Local HTTP Tomcat
-* Local HTTP Embedded Tomcat ([Webapp Runner](https://github.com/jsimone/webapp-runner))
-* Local HTTPS Nginx + HTTP Tomcat
-* Local HTTPS Nginx + HTTP Embedded Tomcat (Webapp Runner)
+* Local Tomcat
+* Local Embedded Tomcat ([Webapp Runner](https://github.com/jsimone/webapp-runner))
 
 ## Server
 ### Overview
@@ -54,30 +52,32 @@ Server was developed following the Spring OAuth2 [guide](http://projects.spring.
 
 ## Deployment
 ### Heroku
+#### Deploy Application
 * Sign up for Heroku free tier in case you do not yet have an account. Create an application in Heroku : either on the Heroku portal or with the [Heroku Command Line](https://devcenter.heroku.com/categories/command-line) tools (extremely convenient). [Here](https://devcenter.heroku.com/articles/creating-apps) is how to create an application from the command line : you can name it yourself or let Heroku name it nicely for you. Either way, the application name must be added to the configuration of the Heroku mvn plugin section.
-* Add the Heroku mvn [plugin](https://devcenter.heroku.com/articles/deploying-java-applications-with-the-heroku-maven-plugin) to your [pom.xml](server/pom.xml) and configure it with your application name. Make sure the pom.xml packaging is `war`.
-* Deploy it with :
-  * `$ mvn heroku:deploy-war`
-* On the Heroku portal, you can view how it gets started inside the embedded Tomcat container :
+* Add the Heroku mvn [plugin](https://devcenter.heroku.com/articles/deploying-java-applications-with-the-heroku-maven-plugin) to your [pom.xml](server/pom.xml) and configure it with your application name. Make sure the pom.xml packaging is `war`. Deploy it with `mvn heroku:deploy-war`.
+* On the Heroku portal, you can view how the application gets started inside the embedded Tomcat container :
   * `java $JAVA_OPTS -jar target/dependency/webapp-runner.jar $WEBAPP_RUNNER_OPTS --port $PORT target/demoa2-1.0.war`
 * Once the application is up and running, both http and https endpoints are available :
   * `http://myAppName.herokuapp.com`
   * `https://myAppName.herokuapp.com`
-* **Important HTTPS Note**
-  * Heroku load balancing **terminates SSL** and **all** requests (even when initiated from Heroku HTTPS endpoints) will reach your web application over HTTP (with appropriate `x-forwarded-*` headers though). This is fine as long as your application does not include **redirect**ed conversations that you want to start and continue over **https** all the way through.
-  * If your application redirects to itself, [Webapp Runner 8](https://github.com/jsimone/webapp-runner) has the solution : its `--proxy-base-url` option tells your web application that incoming requests are being proxied and redirect URLs will consequently be properly constructed. Now, the second piece of **luck** is that Heroku commands will let you set webapp runner options. I issued the following for my application :
-  * `heroku config:set WEBAPP_RUNNER_OPTS="--proxy-base-url https://demoa2.herokuapp.com" --app demoa2`
-  * Conversely, http invocations of heroku app endpoints will be automatically redirected to their https counterparts.
-  * **CAREFUL** : webapp runner version 7 does **not** have the `--proxy-base-url` option. If you are stuck with webapp runner 7, I unfortunately do not have a solution available despite reading tons of Spring literature about valves, embedded containers and forwarded headers (some [here](http://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-developing-web-applications.html#boot-features-embedded-container) and a bit more over [there](http://docs.spring.io/spring-boot/docs/current/reference/html/howto-embedded-servlet-containers.html)).
+
+#### SSL Termination
+* Heroku load balancing **terminates SSL** and **all** requests (even when initiated from Heroku HTTPS endpoints) will reach your web application over HTTP (with appropriate `x-forwarded-*` headers though). This is fine as long as your application does not include **redirect**ed conversations that you want to start and continue over **https** all the way through.
+* If your application redirects to itself, [Webapp Runner 8](https://github.com/jsimone/webapp-runner) has the solution : its `--proxy-base-url` option tells your web application that incoming requests are being proxied and redirect URLs will consequently be properly constructed. Now, the second piece of **luck** is that Heroku commands will let you set webapp runner options. I issued the following for my application :
+```
+heroku config:set WEBAPP_RUNNER_OPTS="--proxy-base-url https://demoa2.herokuapp.com" --app demoa2
+```
+* Conversely, http invocations of heroku app endpoints will be automatically redirected to their https counterparts.
+* **CAREFUL** : webapp runner version 7 does **not** have the `--proxy-base-url` option. If you are stuck with webapp runner 7, I unfortunately do not have a solution available despite reading tons of Spring literature about valves, embedded containers and forwarded headers (some [here](http://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-developing-web-applications.html#boot-features-embedded-container) and a bit more over [there](http://docs.spring.io/spring-boot/docs/current/reference/html/howto-embedded-servlet-containers.html)).
 
 ### Local Tomcat
-Web application is built with `mvn package` and gets deployed as a sub-directory of `$TOMCAT_HOME/webapps`. Tomcat deployment is not included in my pom.xml and deployment is manually handled with a deploy [script](server/tomcat-deploy.sh). Without changing Tomcat defaults, application is available at `http://localhost:8080/demoa2` (the script renames just `demoa2.war` the archive dropped in `$TOMCAT_HOME/webapps`). This also creates a context path mismatch in static resources and that is why the deployment script adds the `demoa2` piece wherever required. There is no issue for JSPs whose context path is dynamically set using `${pageContext.request.contextPath}` variable.
+* Web application is built with `mvn package` and gets deployed as a sub-directory of `$TOMCAT_HOME/webapps`. Tomcat deployment is not included in my pom.xml and deployment is manually handled with a deploy [script](server/tomcat-deploy.sh). Without changing Tomcat defaults, application is available at `http://localhost:8080/demoa2` (the script renames just `demoa2.war` the archive dropped in `$TOMCAT_HOME/webapps`). This also creates a context path mismatch in static resources and that is why the deployment script adds the `demoa2` piece wherever required. There is no issue for JSPs whose context path is dynamically set using `${pageContext.request.contextPath}` variable.
 
-`WEB-INF` folder does not include any `web.xml` file. In [pom.xml](server/pom.xml),`maven-war-plugin` is told not to fail on missing `web.xml`.
+* There is no `web.xml` file in `WEB-INF` folder : in [pom.xml](server/pom.xml), `maven-war-plugin` is told not to fail on missing `web.xml`.
 
-**CAREFUL** : there are a few important considerations for Spring Boot to be able to create a deployable war (as opposed to just running along with `mvn spring-boot:run`). Spring documentation explains it very well [here](http://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#howto-create-a-deployable-war-file) : it's all about `spring-boot-starter-tomcat` artifact.
+* **CAREFUL** : for Spring Boot to be able to create a deployable war (as opposed to just running with `mvn spring-boot:run`), it has to use `spring-boot-starter-tomcat`. Spring documentation explains it very well [here](http://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#howto-create-a-deployable-war-file).
 
-If Tomcat is used behind a front-end proxy server, it has the same issue as webapp runner : it does not know whether requests are being proxied. One way to tell Tomcat incoming requests are being proxied is to change the `Connector` settings in `$TOMCAT_HOME/conf/server.xml`.
+* If Tomcat is used behind a front-end proxy server, it does not know either (like [webapp runner at Heroku](#ssl-termination)) whether requests are being proxied. One way to tell Tomcat incoming requests are being proxied is to change the `Connector` settings in `$TOMCAT_HOME/conf/server.xml`.
 ```xml
     <!-- Default settings -->
     <Connector port="8080" protocol="HTTP/1.1"
@@ -92,12 +92,20 @@ If Tomcat is used behind a front-end proxy server, it has the same issue as weba
                proxyName="localhost" proxyPort="443" scheme="https" />
 ```
 
-If you take a peek at webapp runner [code](https://github.com/jsimone/webapp-runner/blob/master/src/main/java/webapp/runner/launch/Main.java), you can see it programmatically does the equivalent of the `Connector` settings when processing its `--proxy-base-url` option.
+* If you take a peek at webapp runner [code](https://github.com/jsimone/webapp-runner/blob/master/src/main/java/webapp/runner/launch/Main.java), you can see it programmatically does the equivalent of the `Connector` settings when processing its `--proxy-base-url` option.
 
 ### Local Embedded Tomcat
-* tbd1 a1
-* tbd2 a2
+* Configure your `pom.xml` so that it downloads Webapp Runner (Very well explained [here](https://devcenter.heroku.com/articles/java-webapp-runner#configure-maven-to-download-webapp-runner) in Heroku documentation but you can of course do this without having anything to do with Heroku).
+* Package the application with `mvn package`.
+* You can run the archive with :
 ```shell
-ls -lsa
+java -jar target/dependency/webapp-runner.jar --port 8080 target/demoa2-1.0.war
 ```
-* tbd3 a3
+* You can run the exploded war :
+```shell
+java -jar target/dependency/webapp-runner.jar --port 8080 target/demoa2-1.0
+```
+* It of course has the same proxying issues as with Heroku. If you for example run Nginx at `https://localhost`, you can proxy accordingly with :
+```shell
+java -jar target/dependency/webapp-runner.jar --proxy-base-url https://localhost target/demoa2-1.0
+```
