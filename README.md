@@ -148,7 +148,7 @@ https://demoa2.herokuapp.com/oauth/authorize?response_type=code&client_id=client
 * Consent access to client :  
 <img src="https://cloud.githubusercontent.com/assets/13286393/17227000/0d8d0b48-54c1-11e6-8bdb-39af5710b8e8.png" border="0" width="70%" />
 
-* Final redirection with authorization code :  
+* Final redirection with authorization code.  
 <img src="https://cloud.githubusercontent.com/assets/13286393/17226996/0d7f827a-54c1-11e6-8719-722744defd51.png" border="0" width="70%" />
 
 * Exchange code for token :
@@ -158,30 +158,44 @@ curl -u client7:P@55w0rd7 https://demoa2.herokuapp.com/oauth/token \
      -d client_id=client7 \
      -d redirect_uri=http://example.com \
      -d code=P8tZ32
-{"access_token":"77bf32e1-11eb-4bd6-82fc-4d0ca124f896","token_type":"bearer","refresh_token":"85091f22-e779-4904-a453-a9b335fbb92f","expires_in":43199,"scope":"A C"}
+
+{"access_token":"77bf32e1-11eb-4bd6-82fc-4d0ca124f896",
+ "token_type":"bearer",
+ "refresh_token":"85091f22-e779-4904-a453-a9b335fbb92f",
+ "expires_in":43199,
+ "scope":"A C"}
 ```
 * Get User Information :
 ```
-curl -H "Authorization: Bearer 77bf32e1-11eb-4bd6-82fc-4d0ca124f896" https://demoa2.herokuapp.com/user
+curl -H "Authorization: Bearer 77bf32e1-11eb-4bd6-82fc-4d0ca124f896" \
+    https://demoa2.herokuapp.com/user
 
 {"details":{"remoteAddress":"10.5.220.194","sessionId":null,"tokenValue":"77bf32e1-11eb-4bd6-82fc-4d0ca124f896","tokenType":"Bearer","decodedDetails":null},"authorities":[{"authority":"ROLE_USER"}],"authenticated":true,"userAuthentication":{"details":{"remoteAddress":"10.35.237.138","sessionId":"0E52DA55058011D321A3F7CCCAF9F7BC"},"authorities":[{"authority":"ROLE_USER"}],"authenticated":true,"principal":"user4","credentials":null,"name":"user4"},"clientOnly":false,"credentials":"","oauth2Request":{"clientId":"client7","scope":["A","C"],"requestParameters":{"response_type":"code","redirect_uri":"http://example.com","code":"P8tZ32","grant_type":"authorization_code","client_id":"client7"},"resourceIds":["demoa2"],"authorities":[],"approved":true,"refresh":false,"redirectUri":"http://example.com","responseTypes":["code"],"extensions":{},"refreshTokenRequest":null,"grantType":"authorization_code"},"principal":"user4","name":"user4"}
 ```
 
 * Get resource that requires having scope C
 ```
-curl -H "Authorization: Bearer 77bf32e1-11eb-4bd6-82fc-4d0ca124f896" https://demoa2.herokuapp.com/things/C/123
-{"requestedBy":"user4","scopedBy":"C","method":"getThingsC","requestedAt":1469734272758,"id":"123","class":"com.vnet.oa2.endpoints.Things"}
+curl -H "Authorization: Bearer 77bf32e1-11eb-4bd6-82fc-4d0ca124f896" \
+    https://demoa2.herokuapp.com/things/C/123
+
+{"requestedBy":"user4",
+ "scopedBy":"C",
+ "method":"getThingsC",
+ "requestedAt":1469734272758,
+ "id":"123",
+ "class":"com.vnet.oa2.endpoints.Things"}
 ```
 
 * Getting resource that requires having scope B is denied because user only consented to scopes A and C :
 ```
-curl -H "Authorization: Bearer 77bf32e1-11eb-4bd6-82fc-4d0ca124f896" https://demoa2.herokuapp.com/things/B/456
+curl -H "Authorization: Bearer 77bf32e1-11eb-4bd6-82fc-4d0ca124f896" \
+    https://demoa2.herokuapp.com/things/B/456
+
 {"error":"insufficient_scope","error_description":"Insufficient scope for this resource","scope":"B"}
 ```
 
-* Point your browser to `https://demoa2.herokuapp.com/app/manage`.
-  * <img src="https://cloud.githubusercontent.com/assets/13286393/17227975/e068daca-54c5-11e6-9034-f286f83c3b07.png"
-     border="0" width="80%" />
+* Point your browser to `https://demoa2.herokuapp.com/app/manage`.  
+<img src="https://cloud.githubusercontent.com/assets/13286393/17227975/e068daca-54c5-11e6-9034-f286f83c3b07.png" border="0" width="80%" />
 
 ### Resource Owner Grant
 * Get Token
@@ -191,7 +205,12 @@ curl -u client1:P@55w0rd1 https://demoa2.herokuapp.com/oauth/token \
      -d username=user4 \
      -d password=password4 \
      -d scope=A
-{"access_token":"41be7af3-22b7-47b9-aff4-ee5ec04cf0e4","token_type":"bearer","refresh_token":"be919705-5ad9-4fb1-b717-4a8208df5101","expires_in":43199,"scope":"A"}
+
+{"access_token":"41be7af3-22b7-47b9-aff4-ee5ec04cf0e4",
+ "token_type":"bearer",
+ "refresh_token":"be919705-5ad9-4fb1-b717-4a8208df5101",
+ "expires_in":43199,
+ "scope":"A"}
 ```
 
 * Point your browser to `https://demoa2.herokuapp.com/app/manage`.  
@@ -209,7 +228,7 @@ curl -u client1:P@55w0rd1 https://demoa2.herokuapp.com/oauth/token \
 <img src="https://cloud.githubusercontent.com/assets/13286393/17230446/16b41c4c-54d1-11e6-961c-95c40b93955a.png" border="0" width="70%" />
 * Tokens  
 <img src="https://cloud.githubusercontent.com/assets/13286393/17230447/16b90a2c-54d1-11e6-8305-58113a1c8379.png" border="0" width="70%" />
-* Click on a token value to see its details  
+* Token details  
 <img src="https://cloud.githubusercontent.com/assets/13286393/17230442/16abcc04-54d1-11e6-95d1-299df79f783f.png" border="0" width="70%" />
 * When you sign-in with super admin credentials, you can delete approvals and tokens.  
 <img src="https://cloud.githubusercontent.com/assets/13286393/17230443/16af7df4-54d1-11e6-8289-104a359d2cb8.png" border="0" width="70%" />
