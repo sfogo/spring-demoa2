@@ -135,7 +135,7 @@ Server was developed following the Spring OAuth2 [guide](http://projects.spring.
 ![02-test](https://cloud.githubusercontent.com/assets/13286393/17226999/0d88ad00-54c1-11e6-8ade-b1535c32a2a5.png).
 
 * Point your browser to the following location :
-````
+```
 https://demoa2.herokuapp.com/oauth/authorize?response_type=code&client_id=client7&redirect_uri=http://example.com
 ```
 
@@ -169,9 +169,27 @@ curl -H "Authorization: Bearer 77bf32e1-11eb-4bd6-82fc-4d0ca124f896" https://dem
 curl -H "Authorization: Bearer 77bf32e1-11eb-4bd6-82fc-4d0ca124f896" https://demoa2.herokuapp.com/things/C/123
 {"requestedBy":"user4","scopedBy":"C","method":"getThingsC","requestedAt":1469734272758,"id":"123","class":"com.vnet.oa2.endpoints.Things"}
 ```
+
 * Getting resource that requires having scope B is denied because user only consented to scopes A and C :
 ```
 curl -H "Authorization: Bearer 77bf32e1-11eb-4bd6-82fc-4d0ca124f896" https://demoa2.herokuapp.com/things/B/456
 {"error":"insufficient_scope","error_description":"Insufficient scope for this resource","scope":"B"}
 ```
+
+* Point you browser to `https://demoa2.herokuapp.com/app/manage`.
+![06-manage](https://cloud.githubusercontent.com/assets/13286393/17227975/e068daca-54c5-11e6-9034-f286f83c3b07.png)
+
 ### Resource Owner Grant
+* Get Token
+```
+curl -u client1:P@55w0rd1 https://demoa2.herokuapp.com/oauth/token \
+     -d grant_type=password \
+     -d username=user4 \
+     -d password=password4 \
+     -d scope=A
+{"access_token":"41be7af3-22b7-47b9-aff4-ee5ec04cf0e4","token_type":"bearer","refresh_token":"be919705-5ad9-4fb1-b717-4a8208df5101","expires_in":43199,"scope":"A"}
+```
+
+* Point you browser to `https://demoa2.herokuapp.com/app/manage`.
+![07-manage](https://cloud.githubusercontent.com/assets/13286393/17228651/b8703dc6-54c8-11e6-8db3-b1596c320df7.png)
+
