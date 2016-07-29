@@ -1,17 +1,19 @@
-# Spring OAuth2 Demo
+# Spring OAuth2 Demo deployed as Heroku App
 This is a simple OAuth2 demo whose server uses [Spring Boot](http://projects.spring.io/spring-boot),
 [Spring Security OAuth2](http://projects.spring.io/spring-security-oauth) as well as [Spring MVC](http://docs.spring.io/spring/docs/current/spring-framework-reference/html/mvc.html). You may invoke the server pretty much any way you like (browser location, curl, postman) but you can also drop this [AngularJS client](/client) application in a web server.
 
-Server is packaged as a web archive (`war`) deployed and tested in [Tomcat](http://tomcat.apache.org) (either regular or embedded with [Webapp Runner](https://github.com/jsimone/webapp-runner)). Regular Tomcat was used locally while embedded Tomcat was used both locally and in [Heroku](https://www.heroku.com).
+Server is packaged as a web archive (`war`) deployed and tested in [Tomcat](http://tomcat.apache.org) (either regular or embedded with [Webapp Runner](https://github.com/jsimone/webapp-runner)). Regular Tomcat was tested locally while embedded Tomcat was tested both locally and in [Heroku](https://www.heroku.com).
 
 - [Server](#server)
   - [Overview](#overview)
   - [Endpoints](#endpoints)
   - [Resource Endpoints](#resource-endpoints)
-  - [Deployment](#deployment)
-    - [Heroku and SSL Termination](#heroku)
-    - [Local Tomcat](#local-tomcat)
-    - [Local Embedded Tomcat](#local-embedded-tomcat)
+  - [Testing and Deployment](#deployment)
+    - [With Heroku](#heroku)
+      - [Heroku Application](#deploy-application)
+      - [SSL Termination](#ssl-termination)
+    - [With Local Tomcat](#local-tomcat)
+    - [With Local Embedded Tomcat](#local-embedded-tomcat)
 - [Client](#client)
 - [Examples and screenshots](#examples)
   - [Authorization Code Grant - Heroku](#authorization-code-grant-flow-heroku)
@@ -21,7 +23,7 @@ Server is packaged as a web archive (`war`) deployed and tested in [Tomcat](http
 
 ## Server
 ### Overview
-Server was developed following the Spring OAuth2 [guide](http://projects.spring.io/spring-security-oauth/docs/oauth2.html) and combines both **Authorization Server** and **Resource Server** [OAuth roles](https://tools.ietf.org/html/rfc6749#section-1.1). It has the following features :
+Server was developed following the Spring OAuth2 [guide](http://projects.spring.io/spring-security-oauth/docs/oauth2.html) and combines **Authorization Server** and **Resource Server** [OAuth roles](https://tools.ietf.org/html/rfc6749#section-1.1). It has the following features :
 * Customized user login and consent pages (JSP views)
 * A management page (JSP view) that enables regular users (`ROLE_USER`) to view tokens and what they have consented to clients. They can also revoke approvals and remove tokens they own. Administrators cannot access this page.
 * An [AngularJS](https://angularjs.org) based administration application that allows administrators (`ROLE_ADMIN`) to manage all approvals and tokens. When an administrator signs in, they are automatically [password-granted](https://tools.ietf.org/html/rfc6749#section-4.3) an admin token that allows them to access users, clients, consents (user approvals) and tokens as Resources. Admin token is kept in a cookie named `ADMIN_ACCESS_TOKEN`. Regular Administrator (`admin`) can only view while a super admin (named `root`) can delete any approval or token.
@@ -33,7 +35,7 @@ Server was developed following the Spring OAuth2 [guide](http://projects.spring.
   * User `root` has authority `ROLE_ADMIN`, can access the admin application and delete any approval or token (because their `ADMIN_ACCESS_TOKEN` granted upon login is requested with both scopes `ADMIN_READ` and `ADMIN_WRITE`).
   * Other users have authority `ROLE_USER`. They cannot access the administration application.
 * Configuration [classes](server/src/main/java/com/vnet/oa2/config) decide which [endpoints](server/src/main/java/com/vnet/oa2/config/ResourceServerConfig.java) are OAuth2 token controlled (Resource Server) and which [ones](server/src/main/java/com/vnet/oa2/config/HttpSecurityConfig.java) are subjected to regular http security. See Spring OAuth2 [guide](http://projects.spring.io/spring-security-oauth/docs/oauth2.html) for further details.
-
+* **Note** In order for Spring Boot to support a deployable war (as opposed to just running with `mvn spring-boot:run`), it has to use `spring-boot-starter-tomcat`. Spring documentation explains it [here](http://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#howto-create-a-deployable-war-file).
 
 ### Endpoints
 |Method|Endpoint|Authentication Required|Comment|
@@ -90,8 +92,6 @@ Server was developed following the Spring OAuth2 [guide](http://projects.spring.
 
 * There is no `web.xml` file in `WEB-INF` folder. See in [pom.xml](server/pom.xml) how `maven-war-plugin` is told not to fail on missing `web.xml`.
 
-* **CAREFUL** In order for Spring Boot to support a deployable war (as opposed to just running with `mvn spring-boot:run`), it has to use `spring-boot-starter-tomcat`. Spring documentation explains it [here](http://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#howto-create-a-deployable-war-file).
-
 * If Tomcat is used behind a front-end proxy server, it does not know either (like [webapp runner at Heroku](#ssl-termination)) whether requests are being proxied. One way to tell Tomcat incoming requests are being proxied is to change the `Connector` settings in `$TOMCAT_HOME/conf/server.xml`.
 ```xml
     <!-- Default settings -->
@@ -127,7 +127,7 @@ Server was developed following the Spring OAuth2 [guide](http://projects.spring.
 
 ## Client
 * There is no automated packaging provided and you can directly drop all the [files](client) in a web server. The only thing you may need to adapt (to your server deployment) is `oa2BaseURL` at the top of [app.js](client/app.js).
-* Should you want to deploy this client in heroku, you can package up all the [files](client) into a `war` file and deploy it directly (_without mvn_). Here is what you can do :
+* Should you want to deploy this client in heroku, you can package up all the [files](client) into a `war` file and deploy it directly (_without mvn_). Here is how :
   * Get all the files into a directory and `cd` to that directory
   * Create web archive with `jar cvf ../oa2client.war *`
   * Go back one directory and deploy it :  
