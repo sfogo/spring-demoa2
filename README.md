@@ -281,3 +281,39 @@ curl -u client1:P@55w0rd1 https://demoa2.herokuapp.com/oauth/token \
 * When you sign-in with super admin credentials, you can delete approvals and tokens.  
 <img src="https://cloud.githubusercontent.com/assets/13286393/17230443/16af7df4-54d1-11e6-8289-104a359d2cb8.png" border="0" width="70%" />
 
+### Use Client
+* Go to `https://polar-escarpment-1243.herokuapp.com`
+* Setup step#1 requires admin credentials  
+<img src="https://cloud.githubusercontent.com/assets/13286393/17235542/a7747964-54f6-11e6-9cc7-e48264f58fd2.png"
+     border="0" width="70%" />
+
+* Select a client and hit Validate  
+<img src="https://cloud.githubusercontent.com/assets/13286393/17235541/a76d5fc6-54f6-11e6-90b5-23a698564186.png"
+     border="0" width="70%" />
+
+* Click to request authorization code  
+<img src="https://cloud.githubusercontent.com/assets/13286393/17235536/a75c8142-54f6-11e6-87ef-09d1e0190cad.png"
+     border="0" width="70%" />
+
+* Sign-In and consent scopes to Client (same screen shots as in [first example](#authorization-code-grant-flow-heroku))
+
+* Final redirection. Click to exchange code for token.  
+<img src="https://cloud.githubusercontent.com/assets/13286393/17235540/a7620fcc-54f6-11e6-9c4b-a148b29ffb21.png"
+     border="0" width="70%" />
+
+* Use the token  
+<img src="https://cloud.githubusercontent.com/assets/13286393/17235539/a75f2c08-54f6-11e6-9ee9-3aacd073812e.png"
+     border="0" width="70%" />
+
+* An example where scope A not consented to client
+<img src="https://cloud.githubusercontent.com/assets/13286393/17235535/a755de14-54f6-11e6-9eaa-f03bb2ef23b5.png"
+     border="0" width="70%" />
+
+
+
+
+
+
+
+
+
