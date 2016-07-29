@@ -135,7 +135,7 @@ Server was developed following the Spring OAuth2 [guide](http://projects.spring.
 where `yourHerokuClientApp` is another app you created on Heroku.
   * CAREFUL `deploy:war` is not a default Heroku command and if it complains it is not there, you have to install the following plugin beforehand :  
 `heroku plugins:install heroku-cli-deploy`
-* Application can play the role of any registered client (`client1` to `client10`). It has a setup phase that pulls the client list from the server (and presents them in a drop down list). The setup phase will prompt you for admin credentials in order to be able to pull the client list from the server. Past the setup phase, you play the Client role.
+* Application can play the role of any registered client (`client1` to `client10`). It has a setup phase that pulls the client list from the server (and presents them in a drop down list). The setup phase will prompt you for admin credentials in order to be able to pull the client list from the server. Past the setup phase, you play the Client role. See screen shots [here](#use-client).
 * Application is purely client-side (AngularJS) but illustrates the OAuth2 [Authorization Code Grant](https://tools.ietf.org/html/rfc6749#section-4.1) flow where Authorization Code is acquired to be later exchanged for an access token. Please **note** that client side applications are more likely to use other grant methods ([Implicit](https://tools.ietf.org/html/rfc6749#section-4.2) and [Resource Owner Credentials](https://tools.ietf.org/html/rfc6749#section-4.3)) since **Authorized Code Grant** is better suited for confidential clients.
 
 ## Examples
