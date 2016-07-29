@@ -127,15 +127,15 @@ Server was developed following the Spring OAuth2 [guide](http://projects.spring.
 
 ## Client
 * There is no automated packaging provided and you can directly drop all the [files](client) in a web server. The only thing you may need to adapt (to your server deployment) is `oa2BaseURL` at the top of [app.js](client/app.js).
-* Should you want to deploy this client in heroku, you can package up all the files the [files](client) into a `war` file and deploy it directly into Heroku (without mvn). Here is what you can do :
+* Should you want to deploy this client in heroku, you can package up all the [files](client) into a `war` file and deploy it directly (_without mvn_). Here is what you can do :
   * Get all the files into a directory and `cd` to that directory
-  * Create archive with `jar cvf ../oa2client.war *`
+  * Create web archive with `jar cvf ../oa2client.war *`
   * Go back one directory and deploy it :  
 `heroku deploy:war oa2client.war --app yourHerokuClientApp`  
 where `yourHerokuClientApp` is another app you created on Heroku.
   * CAREFUL `deploy:war` is not a default Heroku command and if it complains it is not there, you have to install the following plugin beforehand :  
 `heroku plugins:install heroku-cli-deploy`
-* Application can play the role of any registered client (`client1` to `client10`). It has a setup phase that pulls the client list from the server (and presents them in a drop down list). The setup phase will prompt you for admin credentials in order to be able to pull the client list from the server. Past the setup phase, you play the Client role. See screen shots [here](#use-client).
+* Application can play the role of any registered client (`client1` to `client10`). It has a setup phase that pulls the client list from the server (and presents them in a drop down list). The setup phase will prompt you for admin credentials in order to be able to pull the client list from the server. Past the setup phase, you play the Client role. See screen shots are provided [here](#use-client).
 * Application is purely client-side (AngularJS) but illustrates the OAuth2 [Authorization Code Grant](https://tools.ietf.org/html/rfc6749#section-4.1) flow where Authorization Code is acquired to be later exchanged for an access token. Please **note** that client side applications are more likely to use other grant methods ([Implicit](https://tools.ietf.org/html/rfc6749#section-4.2) and [Resource Owner Credentials](https://tools.ietf.org/html/rfc6749#section-4.3)) since **Authorized Code Grant** is better suited for confidential clients.
 
 ## Examples
