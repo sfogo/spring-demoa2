@@ -17,6 +17,7 @@ Server is packaged as a web archive (`war`) deployed and tested in [Tomcat](http
   - [Authorization Code Grant - Heroku](#authorization-code-grant-flow-heroku)
   - [Resource Owner Grant](#resource-owner-grant)
   - [Administration Application](#administration-application)
+  - [Use AngularJS Client](#use-client)
 
 ## Server
 ### Overview
