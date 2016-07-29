@@ -77,7 +77,7 @@ Server was developed following the Spring OAuth2 [guide](http://projects.spring.
   * My application name was `demoa2`.
 
 #### SSL Termination
-* Heroku load balancing **terminates SSL** and **all** requests (even when initiated at Heroku HTTPS endpoints) will reach your web application over HTTP (with appropriate `x-forwarded-*` headers though). This is fine as long as your application does not include **redirected** conversations that you want to start and continue over **https** all the way through.
+* Heroku load balancing **terminates SSL**, therefore **all** requests (even when initiated at Heroku HTTPS endpoints) will reach your web application over HTTP (with appropriate `x-forwarded-*` headers though). This is fine as long as your application does not include **redirected** conversations that you want to start and continue over **https** all the way through.
 * If your application redirects to itself, [Webapp Runner 8](https://github.com/jsimone/webapp-runner) has the solution : its `--proxy-base-url` option tells your web application that incoming requests are being proxied and redirect URLs will consequently be properly constructed. Now, the second piece of luck is that Heroku commands will let you set webapp runner options. I issued the following for my application :
 ```sh
     heroku config:set WEBAPP_RUNNER_OPTS="--proxy-base-url https://demoa2.herokuapp.com" --app demoa2
@@ -110,7 +110,7 @@ Server was developed following the Spring OAuth2 [guide](http://projects.spring.
 * If you take a peek at webapp runner [code](https://github.com/jsimone/webapp-runner/blob/master/src/main/java/webapp/runner/launch/Main.java), you can see it programmatically does the equivalent of the `Connector` settings when processing its `--proxy-base-url` option.
 
 ### Local Embedded Tomcat
-* Configure your `pom.xml` so that it downloads Webapp Runner (*Very well explained [here](https://devcenter.heroku.com/articles/java-webapp-runner#configure-maven-to-download-webapp-runner) in Heroku documentation but you can of course do this without having anything to do with Heroku*).
+* Configure your `pom.xml` so that it downloads Webapp Runner (*Explained [here](https://devcenter.heroku.com/articles/java-webapp-runner#configure-maven-to-download-webapp-runner) in Heroku documentation but you can of course do this without having anything to do with Heroku*).
 * Package the application with `mvn package`. Run the archive with :
 ```sh
     java -jar target/dependency/webapp-runner.jar --port 8080 target/demoa2-1.0.war
