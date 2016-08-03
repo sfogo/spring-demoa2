@@ -1,6 +1,6 @@
-# Spring OAuth2 Demo deployed as Heroku App
+# Spring OAuth2 Demo deployed as Heroku Apps
 This is a simple OAuth2 demo whose server uses [Spring Boot](http://projects.spring.io/spring-boot),
-[Spring Security OAuth2](http://projects.spring.io/spring-security-oauth) as well as [Spring MVC](http://docs.spring.io/spring/docs/current/spring-framework-reference/html/mvc.html). You may invoke the server pretty much any way you like (browser location, curl, postman) but you can also drop this [AngularJS client](/client) application in a web server.
+[Spring Security OAuth2](http://projects.spring.io/spring-security-oauth) as well as [Spring MVC](http://docs.spring.io/spring/docs/current/spring-framework-reference/html/mvc.html). You may invoke the server pretty much any way you like (browser location, curl, postman) but you can also drop this [AngularJS client](/client) application in a web server. Both [Client](https://polar-escarpment-1243.herokuapp.com) and [Server](https://demoa2.herokuapp.com/home) are available as Heroku Apps (examples are [here](#examples).
 
 Server is packaged as a web archive (`war`) deployed and tested in [Tomcat](http://tomcat.apache.org) (either regular or embedded with [Webapp Runner](https://github.com/jsimone/webapp-runner)). Regular Tomcat was tested locally while embedded Tomcat was tested both locally and in [Heroku](https://www.heroku.com).
 
@@ -19,7 +19,7 @@ Server is packaged as a web archive (`war`) deployed and tested in [Tomcat](http
   - [Authorization Code Grant - Heroku](#authorization-code-grant-flow-heroku)
   - [Resource Owner Grant](#resource-owner-grant)
   - [Administration Application](#administration-application)
-  - [Use AngularJS Client](#use-client)
+  - [Use AngularJS Client - Heroku](#use-client)
 
 ## Server
 ### Overview
