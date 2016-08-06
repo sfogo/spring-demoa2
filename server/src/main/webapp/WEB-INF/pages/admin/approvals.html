@@ -1,6 +1,6 @@
 <div class="mg4" ng-controller="approvalController">
     <div class="aBox pad4 bg5 bm10"><span class="ex00">User Approvals</span></div>
-    <table ng-show="approvals" class="tb01">
+    <table ng-show="error==null" class="tb01">
         <tr>
             <td class="td00"><span class="ex00">User</span></td>
             <td class="td00"><span class="ex00">Client</span></td>
@@ -10,7 +10,7 @@
             <td class="td00"><span class="ex00">Updated</span></td>
             <td class="td00"><span ng-show="wheel==true">&nbsp;<img src="/images/wheel.gif" border="0"/></span></td>
         </tr>
-        <tr ng-repeat="a in approvals">
+        <tr ng-repeat="a in items">
             <td class="tdUP">{{ a.userId }}</td>
             <td class="tdUP">{{ a.clientId }}</td>
             <td class="tdUP">{{ a.scope }}</td>

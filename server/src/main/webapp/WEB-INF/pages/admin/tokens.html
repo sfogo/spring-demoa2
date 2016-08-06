@@ -1,6 +1,6 @@
 <div class="mg4" ng-controller="tokenController">
     <div class="aBox pad4 bg5 bm10"><span class="ex00">OAuth2 Tokens</span></div>
-    <table ng-show="tokens" class="tb01">
+    <table ng-show="error==null" class="tb01">
         <tr>
             <td class="td00"><span class="ex00">User</span></td>
             <td class="td00"><span class="ex00">Client</span></td>
@@ -10,7 +10,7 @@
             <td class="td00"><span class="ex00">Expires In</span></td>
             <td class="td00"><span ng-show="wheel==true">&nbsp;<img src="/images/wheel.gif" border="0"/></span></td>
         </tr>
-        <tr ng-repeat="t in tokens">
+        <tr ng-repeat="t in items">
             <td class="tdUP">{{ t.username }}</td>
             <td class="tdUP">{{ t.clientId }}</td>
             <td class="tdUP"><a class="elm01" href ng-click="tokenPopup(t.access_token);">{{ t.access_token }}</a></td>

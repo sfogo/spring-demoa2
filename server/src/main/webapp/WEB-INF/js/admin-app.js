@@ -21,98 +21,72 @@
     });
 
     // ===========================
+    // Get Admin Items
+    // ===========================
+    var getAdminItems = function(scope,http,resource) {
+        scope.items = [];
+        scope.wheel = false;
+        scope.error = null;
+        var request = {
+            method : 'GET',
+            url : contextURL + '/admin/' + resource,
+            headers : {'Authorization' : 'Bearer ' + adminAccessTokenValue}
+        };
+        http(request).then(
+            function(response) {
+                scope.items = response.data;
+                scope.wheel = false;
+                if (scope.sortItems)
+                    scope.items.sort(scope.sortItems);
+            },
+            function(response) {
+                scope.items = null;
+                scope.wheel = false;
+                scope.error = formatError(response);}
+        );
+    };
+
+    // ===========================
+    // Delete Admin Item
+    // ===========================
+    var deleteAdminItem = function(scope,http,resource,endOfURL) {
+        var request = {
+            method : 'DELETE',
+            url : contextURL + '/admin/' + resource + endOfURL,
+            headers : {'Authorization' : 'Bearer ' + adminAccessTokenValue}
+        };
+        scope.wheel = true;
+        http(request).then(
+            function(response) {scope.wheel = false; getAdminItems(scope,http,resource);},
+            function(response) {scope.wheel = false; scope.error = formatError(response);}
+        );
+    };
+
+    // ===========================
     // Client Controller
     // ===========================
     app.controller('clientController', function($scope,$http) {
-        $scope.clients = [];
-        $scope.error = null;
-        $scope.wheel = false;
-
-        $scope.getClients = function() {
-            $scope.wheel = true;
-            var request = {
-                method : 'GET',
-                url : contextURL + '/admin/clients',
-                headers : {'Authorization' : 'Bearer ' + adminAccessTokenValue}
-            };
-            $http(request).then(
-                function(response) {
-                    $scope.clients = response.data;
-                    $scope.wheel = false;
-                    $scope.clients.sort(function(c1,c2){return c1.client_number - c2.client_number;});
-                },
-                function(response) {
-                    $scope.clients = null;
-                    $scope.wheel = false;
-                    $scope.error = formatError(response);}
-            );
-        };
-        $scope.getClients();
+        $scope.sortItems = function(c1,c2){return c1.client_number - c2.client_number;};
+        getAdminItems($scope,$http,'clients');
     });
 
     // ===========================
     // User Controller
     // ===========================
     app.controller('userController', function($scope,$http) {
-        $scope.users = [];
-        $scope.error = null;
-        $scope.wheel = false;
-        $scope.getUsers = function() {
-            $scope.wheel = true;
-            var request = {
-                method : 'GET',
-                url : contextURL + '/admin/users',
-                headers : {'Authorization' : 'Bearer ' + adminAccessTokenValue}
-            };
-            $http(request).then(
-                function(response) {
-                    $scope.users = response.data;
-                    $scope.wheel = false;
-                },
-                function(response) {
-                    $scope.users = null;
-                    $scope.wheel = false;
-                    $scope.error = formatError(response);
-                }
-            );
-        };
-        $scope.getUsers();
+        $scope.sortItems = function(u1,u2){return u1.username.localeCompare(u2.username);};
+        getAdminItems($scope,$http,'users');
     });
 
     // ===========================
     // Approval Controller
     // ===========================
     app.controller('approvalController', function($scope,$http) {
-        $scope.approvals = null;
-        $scope.error = null;
-        $scope.wheel = false;
         $scope.write = adminWriter;
-
-        $scope.getApprovals = function() {
-            $scope.wheel = true;
-            var request = {
-                method : 'GET',
-                url : contextURL + '/admin/approvals',
-                headers : {'Authorization' : 'Bearer ' + adminAccessTokenValue}
-            };
-            $http(request).then(
-                function(response) {$scope.wheel = false; $scope.approvals = response.data;},
-                function(response) {$scope.wheel = false; $scope.approvals = null; $scope.error = formatError(response);}
-            );
-        };
-        $scope.getApprovals();
+        getAdminItems($scope,$http,'approvals');
 
         $scope.revoke = function(u,c,s) {
-            $scope.wheel = true;
-            var request = {
-                method : 'DELETE',
-                url : contextURL + '/admin/approvals?user=' + u + '&client=' + c + '&scope=' + s,
-                headers : {'Authorization' : 'Bearer ' + adminAccessTokenValue}
-            };
-            $http(request).then(
-                function(response) {$scope.wheel = false; $scope.getApprovals();},
-                function(response) {$scope.wheel = false; $scope.error = formatError(response);}
-            );
+            deleteAdminItem($scope,$http,'approvals','?user=' + u + '&client=' + c + '&scope=' + s);
         };
 
     });
@@ -140,10 +114,6 @@
     // Token Controller
     // ===========================
     app.controller('tokenController', function($scope,$http,ModalService) {
-        $scope.tokens = null;
-        $scope.error = null;
-        $scope.wheel = false;
-        $scope.write = adminWriter;
 
         $scope.tokenPopup = function(t) {
             ModalService.showModal({
@@ -158,31 +128,11 @@
             );
         };
 
-        $scope.getTokens = function() {
-            $scope.wheel = true;
-            var request = {
-                method : 'GET',
-                url : contextURL + '/admin/tokens',
-                headers : {'Authorization' : 'Bearer ' + adminAccessTokenValue}
-            };
-            $http(request).then(
-                function(response) {$scope.wheel = false; $scope.tokens = response.data;},
-                function(response) {$scope.wheel = false; $scope.tokens = null; $scope.error = formatError(response);}
-            );
-        };
+        $scope.write = adminWriter;
+        getAdminItems($scope,$http,'tokens');
 
-        $scope.getTokens();
         $scope.removeToken = function(token) {
-            $scope.wheel = true;
-            var request = {
-                method : 'DELETE',
-                url : contextURL + '/admin/tokens/' + token,
-                headers : {'Authorization' : 'Bearer ' + adminAccessTokenValue}
-            };
-            $http(request).then(
-                function(response) {$scope.wheel = false; $scope.getTokens();},
-                function(response) {$scope.wheel = false; $scope.error = formatError(response);}
-            );
+            deleteAdminItem($scope,$http,'tokens','/'+token);
         };
     });
 
