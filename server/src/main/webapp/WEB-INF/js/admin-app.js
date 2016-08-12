@@ -198,20 +198,8 @@ function canWrite(token) {
 }
 
 function getContextURL() {
-    // HEROKU
-    if (document.domain.endsWith('.herokuapp.com'))
-        return 'https://demoa2.herokuapp.com';
-
-    // Tomcat local, No Nginx
-    if (document.URL.startsWith('http://localhost:8080/demoa2'))
-        return 'http://localhost:8080/demoa2';
-
-    // NGINX local + webapp runner
-    if (document.URL.startsWith('https://localhost'))
-        return 'https://localhost';
-
-    // webapp runner, no Nginx
-    return 'http://localhost:8080' ;
+    var n = document.URL.indexOf('/app/');
+    return document.URL.substring(0,n);
 }
 
 
