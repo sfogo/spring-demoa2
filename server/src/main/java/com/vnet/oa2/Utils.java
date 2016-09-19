@@ -88,9 +88,10 @@ public class Utils {
         final Map<String, Filter> filters = web.getBeansOfType(Filter.class);
         for (String name : filters.keySet()) {
             final Filter filter = filters.get(name);
-            logger.info(">> " + name + ":" + filter.getClass().getName());
             if (filter instanceof FilterChainProxy)
-                dumpFilterChainProxy((FilterChainProxy) filter);
+                dumpFilterChainProxy(name, (FilterChainProxy) filter);
+            else
+                logger.info(">> " + name + ":" + filter.getClass().getName());
         }
     }
 
@@ -98,15 +99,18 @@ public class Utils {
      * Dump Filter Chain Proxy
      * @param proxy filter chain proxy
      */
-    public static void dumpFilterChainProxy(FilterChainProxy proxy) {
+    public static void dumpFilterChainProxy(String name, FilterChainProxy proxy) {
         final List<SecurityFilterChain> chains = proxy.getFilterChains();
+        String s = String.format(">> %s:%s [%d chains]", name, proxy.getClass().getName(), chains.size());
         for (SecurityFilterChain chain : chains) {
             final List<Filter> filters = chain.getFilters();
-            logger.info(">>>> " + filters.size() + " filters");
+            s += "\nChain of " + filters.size() + " filters";
+            int i=1;
             for (Filter filter : filters) {
-                logger.info(">>>> " + filter.getClass().getName());
+                s += String.format("\n%02d : %s", i++, filter.getClass().getName());
             }
         }
+        logger.info(s);
     }
 
     private static String makeURL(HttpServletRequest request, String path, boolean local) {
