@@ -140,7 +140,6 @@ where `yourHerokuClientApp` is another app you created on Heroku.
 * Application is purely client-side (AngularJS) but illustrates the OAuth2 [Authorization Code Grant](https://tools.ietf.org/html/rfc6749#section-4.1) flow where Authorization Code is acquired to be later exchanged for an access token. Please **note** that client side applications are more likely to use other grant methods ([Implicit](https://tools.ietf.org/html/rfc6749#section-4.2) and [Resource Owner Credentials](https://tools.ietf.org/html/rfc6749#section-4.3)) since **Authorized Code Grant** is better suited for confidential clients.
 
 ### Spring Boot Run
-* Run the Server:
 ```sh
 mvn spring-boot:run
 ```
