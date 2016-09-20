@@ -35,7 +35,7 @@ Server was developed following the Spring OAuth2 [guide](http://projects.spring.
   * User `root` has authority `ROLE_ADMIN`, can access the admin application and delete any approval or token (because their `ADMIN_ACCESS_TOKEN` granted upon login is requested with both scopes `ADMIN_READ` and `ADMIN_WRITE`).
   * Other users have authority `ROLE_USER`. They cannot access the administration application.
 * Configuration [classes](server/src/main/java/com/vnet/oa2/config) decide which [endpoints](server/src/main/java/com/vnet/oa2/config/ResourceServerConfig.java) are OAuth2 token controlled (Resource Server) and which [ones](server/src/main/java/com/vnet/oa2/config/HttpSecurityConfig.java) are subjected to regular http security. See Spring OAuth2 [guide](http://projects.spring.io/spring-security-oauth/docs/oauth2.html) for further details.
-* **Note** In order for Spring Boot to support a deployable war (as opposed to just running with `mvn spring-boot:run`), it has to use `spring-boot-starter-tomcat`. Spring documentation explains it [here](http://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#howto-create-a-deployable-war-file).
+* **Note** In order to support a deployable war (as opposed to running with `mvn spring-boot:run`), an [initializer](server/src/main/java/com/vnet/oa2/server/ApplicationInitializer.java) is required to get proper Servlet initilization. See Spring documentation it [here](http://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#howto-create-a-deployable-war-file). Application initializer is not invoked when you `spring-boot:run`. This way, the server [pom](server/pom.xml) can either `spring-boot:run` or create a deployable `war`.
 
 ### Endpoints
 |Method|Endpoint|Authentication Required|Comment|

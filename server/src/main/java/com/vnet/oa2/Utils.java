@@ -35,10 +35,9 @@ public class Utils {
      */
     public static void dumpServletContext(ServletContext container) {
         logger.info("REGISTERED SERVLETS:" + container.getServletRegistrations().size());
-        final Iterator iterator = container.getServletRegistrations().entrySet().iterator();
-        while (iterator.hasNext()) {
-            Map.Entry entry = (Map.Entry) iterator.next();
-            logger.info("Registration Key:"+entry.getKey());
+        for (Object o : container.getServletRegistrations().entrySet()) {
+            Map.Entry entry = (Map.Entry) o;
+            logger.info("Registration Key:" + entry.getKey());
 
             final ServletRegistration registration = container.getServletRegistration(entry.getKey().toString());
             final Collection<String> mappings = registration.getMappings();
@@ -55,9 +54,7 @@ public class Utils {
         // cors.setAsyncSupported(true);
 
         logger.info("REGISTERED FILTERS:" + container.getFilterRegistrations().size());
-        final Iterator<? extends FilterRegistration> itr = container.getFilterRegistrations().values().iterator();
-        while (itr.hasNext()) {
-            final FilterRegistration r = itr.next();
+        for (FilterRegistration r : container.getFilterRegistrations().values()) {
             logger.info(">> " + r.getName());
 
             // final Collection<String> urlPatternMappings = r.getUrlPatternMappings();
@@ -99,7 +96,7 @@ public class Utils {
      * Dump Filter Chain Proxy
      * @param proxy filter chain proxy
      */
-    public static void dumpFilterChainProxy(String name, FilterChainProxy proxy) {
+     static void dumpFilterChainProxy(String name, FilterChainProxy proxy) {
         final List<SecurityFilterChain> chains = proxy.getFilterChains();
         String s = String.format(">> %s:%s [%d chains]", name, proxy.getClass().getName(), chains.size());
         for (SecurityFilterChain chain : chains) {
@@ -167,9 +164,9 @@ public class Utils {
 
     static private class Sequence {
         private int value;
-        public Sequence() {this.value = 0;}
+        Sequence() {this.value = 0;}
         public Sequence(int value) {this.value = value;}
-        public synchronized int nextValue() {return value++;}
+        synchronized int nextValue() {return value++;}
     }
 
     // ------------------------------------
