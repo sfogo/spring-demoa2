@@ -14,6 +14,7 @@ Server is packaged as a web archive (`war`) deployed and tested in [Tomcat](http
       - [SSL Termination](#ssl-termination)
     - [With Local Tomcat](#local-tomcat)
     - [With Local Embedded Tomcat](#local-embedded-tomcat)
+    - [Spring Boot Run](#spring-boot-run)
 - [Client](#client)
 - [Examples and screenshots](#examples)
   - [Authorization Code Grant - Heroku](#authorization-code-grant-flow-heroku)
@@ -35,7 +36,7 @@ Server was developed following the Spring OAuth2 [guide](http://projects.spring.
   * User `root` has authority `ROLE_ADMIN`, can access the admin application and delete any approval or token (because their `ADMIN_ACCESS_TOKEN` granted upon login is requested with both scopes `ADMIN_READ` and `ADMIN_WRITE`).
   * Other users have authority `ROLE_USER`. They cannot access the administration application.
 * Configuration [classes](server/src/main/java/com/vnet/oa2/config) decide which [endpoints](server/src/main/java/com/vnet/oa2/config/ResourceServerConfig.java) are OAuth2 token controlled (Resource Server) and which [ones](server/src/main/java/com/vnet/oa2/config/HttpSecurityConfig.java) are subjected to regular http security. See Spring OAuth2 [guide](http://projects.spring.io/spring-security-oauth/docs/oauth2.html) for further details.
-* **Note** In order to support a deployable war (as opposed to running with `mvn spring-boot:run`), an [initializer](server/src/main/java/com/vnet/oa2/server/ApplicationInitializer.java) is required to get proper Servlet initilization. See Spring documentation it [here](http://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#howto-create-a-deployable-war-file). Application initializer is not invoked when you `spring-boot:run`. This way, the server [pom](server/pom.xml) can either `spring-boot:run` or create a deployable `war`.
+* **Note** In order to support a deployable war (as opposed to running with `mvn spring-boot:run`), an [initializer](server/src/main/java/com/vnet/oa2/server/ApplicationInitializer.java) is required to get proper Servlet initilization. See Spring documentation [here](http://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#howto-create-a-deployable-war-file). Application initializer is not invoked when you `spring-boot:run`. This way, the server [pom](server/pom.xml) can either `spring-boot:run` or create a deployable `war`.
 
 ### Endpoints
 |Method|Endpoint|Authentication Required|Comment|
@@ -137,6 +138,12 @@ where `yourHerokuClientApp` is another app you created on Heroku.
 `heroku plugins:install heroku-cli-deploy`
 * Application can play the role of any registered client (`client1` to `client10`). It has a setup phase that pulls the client list from the server (and presents them in a drop down list). The setup phase will prompt you for admin credentials in order to be able to pull the client list from the server. Past the setup phase, you play the Client role. See screen shots are provided [here](#use-client).
 * Application is purely client-side (AngularJS) but illustrates the OAuth2 [Authorization Code Grant](https://tools.ietf.org/html/rfc6749#section-4.1) flow where Authorization Code is acquired to be later exchanged for an access token. Please **note** that client side applications are more likely to use other grant methods ([Implicit](https://tools.ietf.org/html/rfc6749#section-4.2) and [Resource Owner Credentials](https://tools.ietf.org/html/rfc6749#section-4.3)) since **Authorized Code Grant** is better suited for confidential clients.
+
+### Spring Boot Run
+* Run the Server:
+```sh
+mvn spring-boot:run
+```
 
 ## Examples
 ### Authorization Code Grant flow (Heroku)
