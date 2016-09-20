@@ -21,6 +21,7 @@ import java.util.Base64;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.setRemoveAssertJRelatedElementsFromStackTrace;
 
 @SpringBootTest(webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)
 @RunWith(SpringRunner.class)
@@ -34,14 +35,17 @@ public class ServerTest {
         return "Basic " + Base64.getEncoder().encodeToString((id+":"+secret).getBytes());
     }
 
+    final private String username = "user4";
+    final private String password = "password4";
+
     static private String tokenScopeA;
 
     @Test
     public void test01_OwnerPasswordCredentialsGrant() throws Exception {
         final String url = "/oauth/token";
         final String data = "grant_type=password" +
-                "&username=user4" +
-                "&password=password4"  +
+                "&username=" + username +
+                "&password=" + password +
                 "&scope=A";
 
         final HttpHeaders headers = new HttpHeaders();
@@ -67,7 +71,7 @@ public class ServerTest {
         final ResponseEntity<String> response = restTemplate.exchange("/things/A/123", HttpMethod.GET,entity,String.class);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         final Map map = new ObjectMapper().readValue(response.getBody(), Map.class);
-        assertThat(map.get("requestedBy")).isEqualTo("user4");
+        assertThat(map.get("requestedBy")).isEqualTo(username);
     }
 
     @Test
@@ -76,9 +80,30 @@ public class ServerTest {
         headers.set("authorization", "Bearer " + tokenScopeA);
         final HttpEntity<String> entity = new HttpEntity<>(null, headers);
         final ResponseEntity<String> response = restTemplate.exchange("/things/B/456", HttpMethod.GET,entity,String.class);
-        System.out.println(response.getBody());
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.FORBIDDEN);
         final Map map = new ObjectMapper().readValue(response.getBody(), Map.class);
         assertThat(map.get("error")).isEqualTo("insufficient_scope");
+    }
+
+    @Test
+    public void test04_getResourceA() throws Exception {
+        final HttpHeaders headers = new HttpHeaders();
+        headers.set("authorization", "Bearer " + tokenScopeA);
+        final HttpEntity<String> entity = new HttpEntity<>(null, headers);
+        final ResponseEntity<Map> response = restTemplate.exchange("/things/A/321", HttpMethod.GET,entity,Map.class);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(response.getBody().get("requestedBy")).isEqualTo(username);
+    }
+
+    @Test
+    public void test05_getUser() throws Exception {
+        final HttpHeaders headers = new HttpHeaders();
+        headers.set("authorization", "Bearer " + tokenScopeA);
+        final HttpEntity<String> entity = new HttpEntity<>(null, headers);
+        final ResponseEntity<Map> response = restTemplate.exchange("/user", HttpMethod.GET,entity,Map.class);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(response.getBody().get("name")).isEqualTo(username);
+        assertThat(response.getBody().get("principal")).isEqualTo(username);
+        assertThat(((Map)(response.getBody().get("details"))).get("tokenValue")).isEqualTo(tokenScopeA);
     }
 }
